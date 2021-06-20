@@ -12,7 +12,7 @@ export function Header(){
             <View style={styles.header}>
                     <MaterialIcons style={styles.incons} name="chevron-left" size={30} color="white" />
                     <View style={styles.textScreenName}>
-                        <Text>"kds o texto {'\n'} aaaaa{'\n'} aaaa"</Text>
+                        <Text style={styles.textScreenName}>"Screen Name"</Text>
                     </View>
                 
                 </View>
@@ -36,14 +36,15 @@ export function Header(){
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: Dimensions.get('window').height * 0.1,
+      height: Dimensions.get('window').height * 0.12,
       backgroundColor: colors.gray,
       justifyContent: 'center',
     },
     header:{
         width: '100%',
         height: Dimensions.get('window').height * 0.05,
-        backgroundColor: colors.blue
+        backgroundColor: colors.blue,
+        flexDirection: 'row'
     },
     incons: {
         paddingLeft: 5
@@ -51,7 +52,8 @@ const styles = StyleSheet.create({
     textScreenName: {
         fontFamily: fonts.generic,
         fontSize: 20,
-        paddingLeft: 15
+        paddingLeft: 15,
+        color: colors.white
     },
     textNameApp:{
         fontSize: 32,
