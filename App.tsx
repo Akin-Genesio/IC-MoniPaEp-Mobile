@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {useFonts, 
   Inter_100Thin, 
   Inter_200ExtraLight,
@@ -12,6 +13,9 @@ import {useFonts,
   Inter_800ExtraBold,
   Inter_900Black  
 } from '@expo-google-fonts/inter'
+
+import AppLoading from 'expo-app-loading'
+import { Header } from './src/Components';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -28,12 +32,18 @@ export default function App() {
 
   if(!fontsLoaded){
     return (
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="auto" />
-      </View>
+      <AppLoading/>
     );
   }
+  return(
+    <SafeAreaProvider>
+      <Header/>
+        <View style={styles.container}>
+          <Text>Open up App.tsx to start working on your app!</Text>
+          <StatusBar style="auto" />
+        </View>
+    </SafeAreaProvider>
+  )
 }
 
 const styles = StyleSheet.create({
