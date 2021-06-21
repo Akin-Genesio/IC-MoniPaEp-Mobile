@@ -37,14 +37,13 @@ const styles = StyleSheet.create({
     container: {
       width: '100%',
       height: Dimensions.get('window').height * 0.12,
-      backgroundColor: colors.gray,
       justifyContent: 'center',
     },
     header:{
         width: '100%',
         height: Dimensions.get('window').height * 0.05,
         backgroundColor: colors.blue,
-        flexDirection: 'row'
+        flexDirection: 'row'   
     },
     incons: {
         paddingLeft: 5
@@ -53,7 +52,8 @@ const styles = StyleSheet.create({
         fontFamily: fonts.generic,
         fontSize: 20,
         paddingLeft: 15,
-        color: colors.white
+        color: colors.white,
+        justifyContent: 'space-around'
     },
     textNameApp:{
         fontSize: 32,
