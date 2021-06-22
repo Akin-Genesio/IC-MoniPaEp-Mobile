@@ -31,6 +31,12 @@ export function SignUp(){
     const [isCPFFilled, setIsCPFFilled] = useState(false)
     const [cpf, setCPF] = useState<string>()
     const cpfRef = useRef(null)
+
+    //Seting useState and useRef to Cellphone number
+    const[isPhoneFocused, setIsPhoneFocused] = useState(false)
+    const [isPhoneFilled, setIsPhoneFilled] = useState(false)
+    const [phone, setPhone] = useState<string>()
+    const phoneRef = useRef(null)
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -77,11 +83,29 @@ export function SignUp(){
         setCPF(value)
     }
 
-    function CPF(){
+    //Functions handle for Phone number
+    function handleInputPhoneBlur(){
+        setIsPhoneFocused(false)
+        setIsPhoneFilled(!!phone)
+    }
+
+    function handleInputPhoneFocus(){
+        setIsPhoneFocused(true)
+    }
+
+    function handleInputPhoneChange(value: string){
+        setIsPhoneFilled(!!value)
+        setPhone(value)
+    }
+
+    
+    function Check(){
         if(cpfRef != null){
             const unmask = cpfRef?.current.getRawValue()
             const cpfIsValid = cpfRef?.current.isValid()
-            alert(cpfIsValid)
+            const unmaskphone = phoneRef?.current.getRawValue()
+            const phoneIsValid = phoneRef?.current.isValid()
+            alert(phoneIsValid)
         }   
     }
 
@@ -173,9 +197,43 @@ export function SignUp(){
                             ]}    
                         />
                     </View> 
+                    <View style={[
+                                styles.inputField,
+                                (isCPFFocused || isCPFFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                        <TextInputMask
+                            placeholder="Numero de Telefone"
+                            type = {'cel-phone'}
+                            options ={{
+                                maskType: 'BRL',
+                                withDDD: true,
+                                dddMask: '(99) '
+                            }}
+                            value ={phone}
+                            style={styles.input}
+                            onBlur={handleInputPhoneBlur}
+                            onFocus = {handleInputPhoneFocus}
+                            onChangeText = {handleInputPhoneChange}
+                            ref={phoneRef}
+                            
+                        />
+                        <MaterialIcons 
+                            name="phone-android" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isCPFFocused || isCPFFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View> 
                     <Button
-                        title= "Mostra CPF"
-                        onPress={CPF}
+                        title= "Check"
+                        onPress={Check}
                     />
                 </View>
                 </KeyboardAvoidingView>
