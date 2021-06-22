@@ -8,7 +8,7 @@ import fonts from '../styles/fonts';
 
 export function Header(){
     return(
-        <SafeAreaView>
+        <View>
             <View style={styles.header}>
                     <MaterialIcons style={styles.incons} name="chevron-left" size={30} color="white" />
                     <View style={styles.textScreenName}>
@@ -25,7 +25,7 @@ export function Header(){
                     </Text>
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
             
         
         
@@ -36,7 +36,7 @@ export function Header(){
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      height: Dimensions.get('window').height * 0.12,
+      height: Dimensions.get('window').height * 0.15,
       justifyContent: 'center',
     },
     header:{

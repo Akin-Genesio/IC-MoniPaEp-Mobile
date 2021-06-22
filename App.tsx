@@ -16,6 +16,7 @@ import {useFonts,
 
 import AppLoading from 'expo-app-loading'
 import { Header } from './src/Components';
+import { SignUp } from './src/pages';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -37,15 +38,7 @@ export default function App() {
   }
   return(
     <SafeAreaProvider>
-      <Header/>
-        <View style={styles.container}>
-          <Text>Open up App.tsx to start working on your app!</Text>
-          <StatusBar style="auto" />
-          <TextInput
-            placeholder="Name" 
-            
-          />
-        </View>
+      <SignUp/>
     </SafeAreaProvider>
   )
 }
