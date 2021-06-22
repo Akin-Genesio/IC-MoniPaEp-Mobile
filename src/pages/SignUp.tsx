@@ -1,5 +1,5 @@
 import { InputOutline, InputStandard } from 'react-native-input-outline';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     KeyboardAvoidingView, 
     StyleSheet, 
@@ -14,22 +14,57 @@ import { MaterialIcons } from '@expo/vector-icons';
 import fonts from '../styles/fonts';
 
 export function SignUp(){
-    //const inputRef = useRef < InputOutline > null;
+    const[isFocused, setIsFocused] = useState(false)
+    const [isFilled, setIsFilled] = useState(false)
+    const [name, setName] = useState<string>()
+    
+    function handleInputBlur(){
+        setIsFocused(false)
+        setIsFilled(!!name)
+    }
+
+    function handleInputFocus(){
+        setIsFocused(true)
+    }
+
+    function handleInputChange(value: string){
+        setIsFilled(!!value)
+        setName(value)
+    }
+
     return(
         <SafeAreaView>
             <Header/> 
             <KeyboardAvoidingView  
                 style={styles.container}
-                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+                //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >                
                 <View style={styles.container}>
                     <Text>Test input text</Text>
-                    <View style={styles.email}>
+                    <View style={[
+                                styles.email,
+                                (isFocused || isFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
                         <TextInput
-                            style={styles.input}
                             placeholder="Email"
+                            style={styles.input}
+                            onBlur={handleInputBlur}
+                            onFocus = {handleInputFocus}
+                            onChangeText = {handleInputChange}
                         />
-                        <MaterialIcons style={styles.Icon} name="email" size={24} color="black" />
+                        <MaterialIcons 
+                            name="email" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isFocused || isFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
                     </View> 
                 </View>
                 </KeyboardAvoidingView>
@@ -51,16 +86,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomWidth: 1,
-        borderColor: colors.blue,
+        borderColor: colors.gray,
         
     },
     Icon:{
         padding: 10,
-        color: colors.blue
     },
     input:{
-        //borderBottomWidth: 1,
-        borderColor: colors.gray,
         color: colors.gray_dark3,
         width: '70%',
         fontFamily: fonts.text,
