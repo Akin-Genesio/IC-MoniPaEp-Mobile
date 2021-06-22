@@ -1,6 +1,13 @@
 import { InputOutline, InputStandard } from 'react-native-input-outline';
 import React, { useRef } from 'react';
-import {StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+    KeyboardAvoidingView, 
+    StyleSheet, 
+    Text, 
+    TextInput, 
+    View,
+    Platform
+} from 'react-native';
 import { Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -11,16 +18,21 @@ export function SignUp(){
     return(
         <SafeAreaView>
             <Header/> 
-            <View style={styles.container}>
-                <Text>Test input text</Text>
-                <View style={styles.email}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                    />
-                    <MaterialIcons style={styles.Icon} name="email" size={24} color="black" />
-                </View> 
-            </View>
+            <KeyboardAvoidingView  
+                style={styles.container}
+                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+            >                
+                <View style={styles.container}>
+                    <Text>Test input text</Text>
+                    <View style={styles.email}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                        />
+                        <MaterialIcons style={styles.Icon} name="email" size={24} color="black" />
+                    </View> 
+                </View>
+                </KeyboardAvoidingView>
         </SafeAreaView>
     )
 }
