@@ -1,12 +1,14 @@
 import { InputOutline, InputStandard } from 'react-native-input-outline';
 import React, { useRef, useState } from 'react';
+import {TextInputMask} from 'react-native-masked-text'
 import {
     KeyboardAvoidingView, 
     StyleSheet, 
     Text, 
     TextInput, 
     View,
-    Platform
+    Platform,
+    Button
 } from 'react-native';
 import { Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
@@ -14,22 +16,73 @@ import { MaterialIcons } from '@expo/vector-icons';
 import fonts from '../styles/fonts';
 
 export function SignUp(){
-    const[isFocused, setIsFocused] = useState(false)
-    const [isFilled, setIsFilled] = useState(false)
+    //Seting useState and useRef to email
+    const[isEmailFocused, setIsEmailFocused] = useState(false)
+    const [isEmailFilled, setIsEmailFilled] = useState(false)
+    const [email, setEmail] = useState<string>()
+
+    //Seting useState to Name
+    const[isNameFocused, setIsNameFocused] = useState(false)
+    const [isNameFilled, setIsNameFilled] = useState(false)
     const [name, setName] = useState<string>()
+
+    //Seting useState and useRef to CPF
+    const[isCPFFocused, setIsCPFFocused] = useState(false)
+    const [isCPFFilled, setIsCPFFilled] = useState(false)
+    const [cpf, setCPF] = useState<string>()
+    const cpfRef = useRef(null)
     
-    function handleInputBlur(){
-        setIsFocused(false)
-        setIsFilled(!!name)
+    //Functions handle for email
+    function handleInputEmailBlur(){
+        setIsEmailFocused(false)
+        setIsEmailFilled(!!email)
     }
 
-    function handleInputFocus(){
-        setIsFocused(true)
+    function handleInputEmailFocus(){
+        setIsEmailFocused(true)
     }
 
-    function handleInputChange(value: string){
-        setIsFilled(!!value)
+    function handleInputEmailChange(value: string){
+        setIsEmailFilled(!!value)
+        setEmail(value)
+    }
+
+    //Functions handle for name
+    function handleInputNameBlur(){
+        setIsNameFocused(false)
+        setIsNameFilled(!!name)
+    }
+
+    function handleInputNameFocus(){
+        setIsNameFocused(true)
+    }
+
+    function handleInputNameChange(value: string){
+        setIsNameFilled(!!value)
         setName(value)
+    }
+
+    //Functions handle for CPF
+    function handleInputCPFBlur(){
+        setIsCPFFocused(false)
+        setIsCPFFilled(!!cpf)
+    }
+
+    function handleInputCPFFocus(){
+        setIsCPFFocused(true)
+    }
+
+    function handleInputCPFChange(value: string){
+        setIsCPFFilled(!!value)
+        setCPF(value)
+    }
+
+    function CPF(){
+        if(cpfRef != null){
+            const unmask = cpfRef?.current.getRawValue()
+            const cpfIsValid = cpfRef?.current.isValid()
+            alert(cpfIsValid)
+        }   
     }
 
     return(
@@ -37,22 +90,22 @@ export function SignUp(){
             <Header/> 
             <KeyboardAvoidingView  
                 style={styles.container}
-                //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >                
                 <View style={styles.container}>
                     <Text>Test input text</Text>
                     <View style={[
-                                styles.email,
-                                (isFocused || isFilled) && 
+                                styles.inputField,
+                                (isEmailFocused || isEmailFilled) && 
                                 {borderColor: colors.blue}
                             ]}
                     >
                         <TextInput
                             placeholder="Email"
                             style={styles.input}
-                            onBlur={handleInputBlur}
-                            onFocus = {handleInputFocus}
-                            onChangeText = {handleInputChange}
+                            onBlur={handleInputEmailBlur}
+                            onFocus = {handleInputEmailFocus}
+                            onChangeText = {handleInputEmailChange}
                         />
                         <MaterialIcons 
                             name="email" 
@@ -61,11 +114,69 @@ export function SignUp(){
                             color = "gray"
                             style={[
                                 styles.Icon,
-                                (isFocused || isFilled) && 
+                                (isEmailFocused || isEmailFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View>
+                    <View style={[
+                                styles.inputField,
+                                (isNameFocused || isNameFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                        <TextInput
+                            placeholder="Name"
+                            style={styles.input}
+                            onBlur={handleInputNameBlur}
+                            onFocus = {handleInputNameFocus}
+                            onChangeText = {handleInputNameChange}
+                        />
+                        <MaterialIcons 
+                            name="person" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isNameFocused || isNameFilled) && 
                                 {color: colors.blue}
                             ]}    
                         />
                     </View> 
+                    <View style={[
+                                styles.inputField,
+                                (isCPFFocused || isCPFFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                        <TextInputMask
+                            placeholder="CPF"
+                            type = {'cpf'}
+                            value ={cpf}
+                            style={styles.input}
+                            onBlur={handleInputCPFBlur}
+                            onFocus = {handleInputCPFFocus}
+                            onChangeText = {handleInputCPFChange}
+                            ref={cpfRef}
+                            
+                        />
+                        <MaterialIcons 
+                            name="person-outline" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isCPFFocused || isCPFFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View> 
+                    <Button
+                        title= "Mostra CPF"
+                        onPress={CPF}
+                    />
                 </View>
                 </KeyboardAvoidingView>
         </SafeAreaView>
@@ -79,7 +190,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    email: {
+    inputField: {
         //flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -87,6 +198,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderBottomWidth: 1,
         borderColor: colors.gray,
+        padding: 10
         
     },
     Icon:{
