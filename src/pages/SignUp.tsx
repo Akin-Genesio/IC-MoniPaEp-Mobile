@@ -37,6 +37,18 @@ export function SignUp(){
     const [isPhoneFilled, setIsPhoneFilled] = useState(false)
     const [phone, setPhone] = useState<string>()
     const phoneRef = useRef(null)
+
+    //Seting useState and useRef to Date number
+    const[isDateFocused, setIsDateFocused] = useState(false)
+    const [isDateFilled, setIsDateFilled] = useState(false)
+    const [date, setDate] = useState<string>()
+    const dateRef = useRef(null)
+
+    //Seting useState and useRef to HomeAddress
+    const[isHomeAddressFocused, setIsHomeAddressFocused] = useState(false)
+    const [isHomeAddressFilled, setIsHomeAddressFilled] = useState(false)
+    const [homeAddress, setHomeAddress] = useState<string>()
+    const homeAddressRef = useRef(null)
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -98,6 +110,36 @@ export function SignUp(){
         setPhone(value)
     }
 
+    //Functions handle for Date of birth
+    function handleInputDateBlur(){
+        setIsDateFocused(false)
+        setIsDateFilled(!!date)
+    }
+
+    function handleInputDateFocus(){
+        setIsDateFocused(true)
+    }
+
+    function handleInputDateChange(value: string){
+        setIsDateFilled(!!value)
+        setDate(value)
+    }
+
+    //Functions handle for Home Address
+    function handleInputHomeAddressBlur(){
+        setIsHomeAddressFocused(false)
+        setIsHomeAddressFilled(!!homeAddress)
+    }
+
+    function handleInputHomeAddressFocus(){
+        setIsHomeAddressFocused(true)
+    }
+
+    function handleInputHomeAddressChange(value: string){
+        setIsHomeAddressFilled(!!value)
+        setHomeAddress(value)
+    }
+
     
     function Check(){
         if(cpfRef != null){
@@ -105,7 +147,9 @@ export function SignUp(){
             const cpfIsValid = cpfRef?.current.isValid()
             const unmaskphone = phoneRef?.current.getRawValue()
             const phoneIsValid = phoneRef?.current.isValid()
-            alert(phoneIsValid)
+            const unmaskHome = homeAddressRef?.current.getRawValue()
+            const homeIsValid = homeAddressRef?.current.isValid()
+            alert(homeIsValid)
         }   
     }
 
@@ -199,7 +243,7 @@ export function SignUp(){
                     </View> 
                     <View style={[
                                 styles.inputField,
-                                (isCPFFocused || isCPFFilled) && 
+                                (isPhoneFocused || isPhoneFilled) && 
                                 {borderColor: colors.blue}
                             ]}
                     >
@@ -226,7 +270,133 @@ export function SignUp(){
                             color = "gray"
                             style={[
                                 styles.Icon,
-                                (isCPFFocused || isCPFFilled) && 
+                                (isPhoneFocused || isPhoneFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View>
+                    <View style={[
+                                styles.inputField,
+                                (isDateFocused || isDateFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                        <TextInputMask
+                            placeholder="Data de nascimento: DD/MM/AAAA"
+                            type = {'datetime'}
+                            options ={{
+                                format: 'DD/MM/DD'
+                            }}
+                            value ={date}
+                            style={styles.input}
+                            onBlur={handleInputDateBlur}
+                            onFocus = {handleInputDateFocus}
+                            onChangeText = {handleInputDateChange}
+                            ref={dateRef}
+                            
+                        />
+                        <MaterialIcons 
+                            name="date-range" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isDateFocused || isDateFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View>
+                    <View style={[
+                                styles.inputField,
+                                (isHomeAddressFocused || isHomeAddressFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                         <TextInputMask
+                        type={'custom'}
+                        placeholder="CEP da sua casa"
+                        keyboardType='numeric'
+                        options={{
+                            // required
+
+                            /**
+                             * mask: (String | required | default '')
+                             * the mask pattern
+                             * 9 - accept digit.
+                             * A - accept alpha.
+                             * S - accept alphanumeric.
+                             * * - accept all, EXCEPT white space.
+                            */
+                            mask: '99999-999',
+
+                            // optional
+
+                            /**
+                             * validator: (Function | optional | defaults returns true)
+                             * use this funcion to inform if the inputed value is a valid value (for invalid phone numbers, for example). The isValid method use this validator.
+                            */
+                            validator: function(value, settings) {
+                                // Regex Check
+                                var objER = /^[0-9]{5}-[0-9]{3}$/;
+                                if(value.length > 0)
+                                    {
+                                        if(objER.test(value))
+                                            return true;
+                                        else
+                                            return false;
+                                    }
+                                else
+                                    return false;
+                            },
+
+                            /**
+                             * getRawValue: (Function | optional | defaults return current masked value)
+                             * use this function to parse and return values to use what you want.
+                             * for example, if you want to create a phone number mask (999) 999-99-99 but want to get only
+                             * the numbers for value, use this method for this parse step.
+                            */
+                            getRawValue: function(value, settings) {
+                            return String(value.replace("-", ""));
+                            },
+                            /**
+                             * translation: (Object | optional | defaults 9, A, S, *)
+                             * the dictionary that translate mask and value.
+                             * you can change defaults by simple override the key (9, A, S, *) or create some new.
+                            */
+                            translation: {
+                            // this is a custom translation. The others (9, A, S, *) still works.
+                            // this translation will be merged and turns into 9, A, S, *, #.
+                            '#': function(val) {
+                                if (val === ' ') {
+                                return val;
+                                }
+
+                                // if returns null, undefined or '' (empty string), the value will be ignored.
+                                return null;
+                            },
+                            // in this case, we will override build-in * translation (allow all characters)
+                            // and set this to allow only blank spaces and some special characters.
+                            '*': function(val) {
+                                return [' ', '#', ',', '.', '!'].indexOf(val) >= 0 ? val : null;
+                            }
+                            }
+                        }}
+                        value={homeAddress}
+                        onChangeText={handleInputHomeAddressChange}
+                        onBlur={handleInputHomeAddressBlur}
+                        onFocus = {handleInputHomeAddressFocus}
+                        style={styles.input}
+                        ref={homeAddressRef}
+                    />
+                        <MaterialIcons 
+                            name="home" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isHomeAddressFocused || isHomeAddressFilled) && 
                                 {color: colors.blue}
                             ]}    
                         />
