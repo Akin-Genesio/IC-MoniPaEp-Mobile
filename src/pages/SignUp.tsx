@@ -171,6 +171,7 @@ export function SignUp(){
                         <TextInput
                             placeholder="Email"
                             style={styles.input}
+                            textContentType = 'emailAddress'
                             onBlur={handleInputEmailBlur}
                             onFocus = {handleInputEmailFocus}
                             onChangeText = {handleInputEmailChange}
@@ -196,6 +197,7 @@ export function SignUp(){
                         <TextInput
                             placeholder="Name"
                             style={styles.input}
+                            textContentType = 'name'
                             onBlur={handleInputNameBlur}
                             onFocus = {handleInputNameFocus}
                             onChangeText = {handleInputNameChange}
@@ -250,6 +252,7 @@ export function SignUp(){
                         <TextInputMask
                             placeholder="Numero de Telefone"
                             type = {'cel-phone'}
+                            textContentType = 'telephoneNumber'
                             options ={{
                                 maskType: 'BRL',
                                 withDDD: true,
@@ -314,80 +317,81 @@ export function SignUp(){
                             ]}
                     >
                          <TextInputMask
-                        type={'custom'}
-                        placeholder="CEP da sua casa"
-                        keyboardType='numeric'
-                        options={{
-                            // required
+                            type={'custom'}
+                            placeholder="CEP da sua casa"
+                            textContentType = 'streetAddressLine1'
+                            keyboardType='numeric'
+                            options={{
+                                // required
 
-                            /**
-                             * mask: (String | required | default '')
-                             * the mask pattern
-                             * 9 - accept digit.
-                             * A - accept alpha.
-                             * S - accept alphanumeric.
-                             * * - accept all, EXCEPT white space.
-                            */
-                            mask: '99999-999',
+                                /**
+                                 * mask: (String | required | default '')
+                                 * the mask pattern
+                                 * 9 - accept digit.
+                                 * A - accept alpha.
+                                 * S - accept alphanumeric.
+                                 * * - accept all, EXCEPT white space.
+                                */
+                                mask: '99999-999',
 
-                            // optional
+                                // optional
 
-                            /**
-                             * validator: (Function | optional | defaults returns true)
-                             * use this funcion to inform if the inputed value is a valid value (for invalid phone numbers, for example). The isValid method use this validator.
-                            */
-                            validator: function(value, settings) {
-                                // Regex Check
-                                var objER = /^[0-9]{5}-[0-9]{3}$/;
-                                if(value.length > 0)
-                                    {
-                                        if(objER.test(value))
-                                            return true;
-                                        else
-                                            return false;
+                                /**
+                                 * validator: (Function | optional | defaults returns true)
+                                 * use this funcion to inform if the inputed value is a valid value (for invalid phone numbers, for example). The isValid method use this validator.
+                                */
+                                validator: function(value, settings) {
+                                    // Regex Check
+                                    var objER = /^[0-9]{5}-[0-9]{3}$/;
+                                    if(value.length > 0)
+                                        {
+                                            if(objER.test(value))
+                                                return true;
+                                            else
+                                                return false;
+                                        }
+                                    else
+                                        return false;
+                                },
+
+                                /**
+                                 * getRawValue: (Function | optional | defaults return current masked value)
+                                 * use this function to parse and return values to use what you want.
+                                 * for example, if you want to create a phone number mask (999) 999-99-99 but want to get only
+                                 * the numbers for value, use this method for this parse step.
+                                */
+                                getRawValue: function(value, settings) {
+                                return String(value.replace("-", ""));
+                                },
+                                /**
+                                 * translation: (Object | optional | defaults 9, A, S, *)
+                                 * the dictionary that translate mask and value.
+                                 * you can change defaults by simple override the key (9, A, S, *) or create some new.
+                                */
+                                translation: {
+                                // this is a custom translation. The others (9, A, S, *) still works.
+                                // this translation will be merged and turns into 9, A, S, *, #.
+                                '#': function(val) {
+                                    if (val === ' ') {
+                                    return val;
                                     }
-                                else
-                                    return false;
-                            },
 
-                            /**
-                             * getRawValue: (Function | optional | defaults return current masked value)
-                             * use this function to parse and return values to use what you want.
-                             * for example, if you want to create a phone number mask (999) 999-99-99 but want to get only
-                             * the numbers for value, use this method for this parse step.
-                            */
-                            getRawValue: function(value, settings) {
-                            return String(value.replace("-", ""));
-                            },
-                            /**
-                             * translation: (Object | optional | defaults 9, A, S, *)
-                             * the dictionary that translate mask and value.
-                             * you can change defaults by simple override the key (9, A, S, *) or create some new.
-                            */
-                            translation: {
-                            // this is a custom translation. The others (9, A, S, *) still works.
-                            // this translation will be merged and turns into 9, A, S, *, #.
-                            '#': function(val) {
-                                if (val === ' ') {
-                                return val;
+                                    // if returns null, undefined or '' (empty string), the value will be ignored.
+                                    return null;
+                                },
+                                // in this case, we will override build-in * translation (allow all characters)
+                                // and set this to allow only blank spaces and some special characters.
+                                '*': function(val) {
+                                    return [' ', '#', ',', '.', '!'].indexOf(val) >= 0 ? val : null;
                                 }
-
-                                // if returns null, undefined or '' (empty string), the value will be ignored.
-                                return null;
-                            },
-                            // in this case, we will override build-in * translation (allow all characters)
-                            // and set this to allow only blank spaces and some special characters.
-                            '*': function(val) {
-                                return [' ', '#', ',', '.', '!'].indexOf(val) >= 0 ? val : null;
-                            }
-                            }
-                        }}
-                        value={homeAddress}
-                        onChangeText={handleInputHomeAddressChange}
-                        onBlur={handleInputHomeAddressBlur}
-                        onFocus = {handleInputHomeAddressFocus}
-                        style={styles.input}
-                        ref={homeAddressRef}
+                                }
+                            }}
+                            value={homeAddress}
+                            onChangeText={handleInputHomeAddressChange}
+                            onBlur={handleInputHomeAddressBlur}
+                            onFocus = {handleInputHomeAddressFocus}
+                            style={styles.input}
+                            ref={homeAddressRef}
                     />
                         <MaterialIcons 
                             name="home" 
@@ -397,6 +401,33 @@ export function SignUp(){
                             style={[
                                 styles.Icon,
                                 (isHomeAddressFocused || isHomeAddressFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View>
+                    <View style={[
+                                styles.inputField,
+                                (isEmailFocused || isEmailFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                        <TextInput
+                            placeholder="Senha"
+                            style={styles.input}
+                            textContentType = 'password'
+                            secureTextEntry = {true}
+                            onBlur={handleInputEmailBlur}
+                            onFocus = {handleInputEmailFocus}
+                            onChangeText = {handleInputEmailChange}
+                        />
+                        <MaterialIcons 
+                            name="lock" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isEmailFocused || isEmailFilled) && 
                                 {color: colors.blue}
                             ]}    
                         />
