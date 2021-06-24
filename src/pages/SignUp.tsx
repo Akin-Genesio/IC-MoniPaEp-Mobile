@@ -20,6 +20,7 @@ export function SignUp(){
     const[isEmailFocused, setIsEmailFocused] = useState(false)
     const [isEmailFilled, setIsEmailFilled] = useState(false)
     const [email, setEmail] = useState<string>()
+    const emailRef = useRef(null)
 
     //Seting useState to Name
     const[isNameFocused, setIsNameFocused] = useState(false)
@@ -49,6 +50,18 @@ export function SignUp(){
     const [isHomeAddressFilled, setIsHomeAddressFilled] = useState(false)
     const [homeAddress, setHomeAddress] = useState<string>()
     const homeAddressRef = useRef(null)
+
+    //Seting useState and useRef to WorkAddress
+    const[isWorkAddressFocused, setIsWorkAddressFocused] = useState(false)
+    const [isWorkAddressFilled, setIsWorkAddressFilled] = useState(false)
+    const [workAddress, setWorkAddress] = useState<string>()
+    const workAddressRef = useRef(null)
+
+    //Seting useState and useRef to Password
+    const[isPasswordFocused, setIsPasswordFocused] = useState(false)
+    const [isPasswordFilled, setIsPasswordFilled] = useState(false)
+    const [password, setPassword] = useState<string>()
+    const passwordRef = useRef(null)
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -140,6 +153,37 @@ export function SignUp(){
         setHomeAddress(value)
     }
 
+    //Functions handle for Work Address
+    function handleInputWorkAddressBlur(){
+        setIsWorkAddressFocused(false)
+        setIsWorkAddressFilled(!!workAddress)
+    }
+
+    function handleInputWorkAddressFocus(){
+        setIsWorkAddressFocused(true)
+    }
+
+    function handleInputWorkAddressChange(value: string){
+        setIsWorkAddressFilled(!!value)
+        setWorkAddress(value)
+    }
+
+
+    //Functions handle for Password
+    function handleInputPasswordBlur(){
+        setIsPasswordFocused(false)
+        setIsPasswordFilled(!!password)
+    }
+
+    function handleInputPasswordFocus(){
+        setIsPasswordFocused(true)
+    }
+
+    function handleInputPasswordChange(value: string){
+        setIsPasswordFilled(!!value)
+        setPassword(value)
+    }
+
     
     function Check(){
         if(cpfRef != null){
@@ -171,11 +215,15 @@ export function SignUp(){
                         <TextInput
                             placeholder="Email"
                             style={styles.input}
+                            keyboardType = 'email-address'
                             textContentType = 'emailAddress'
+                            value = {email}
+                            ref = {emailRef}
                             onBlur={handleInputEmailBlur}
                             onFocus = {handleInputEmailFocus}
                             onChangeText = {handleInputEmailChange}
                         />
+                        
                         <MaterialIcons 
                             name="email" 
                             size={24}
@@ -392,7 +440,7 @@ export function SignUp(){
                             onFocus = {handleInputHomeAddressFocus}
                             style={styles.input}
                             ref={homeAddressRef}
-                    />
+                        />
                         <MaterialIcons 
                             name="home" 
                             size={24}
@@ -401,6 +449,102 @@ export function SignUp(){
                             style={[
                                 styles.Icon,
                                 (isHomeAddressFocused || isHomeAddressFilled) && 
+                                {color: colors.blue}
+                            ]}    
+                        />
+                    </View>
+
+                    <View style={[
+                                styles.inputField,
+                                (isHomeAddressFocused || isHomeAddressFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                    >
+                         <TextInputMask
+                            type={'custom'}
+                            placeholder="CEP do seu local de trabalho"
+                            textContentType = 'streetAddressLine1'
+                            keyboardType='numeric'
+                            options={{
+                                // required
+
+                                /**
+                                 * mask: (String | required | default '')
+                                 * the mask pattern
+                                 * 9 - accept digit.
+                                 * A - accept alpha.
+                                 * S - accept alphanumeric.
+                                 * * - accept all, EXCEPT white space.
+                                */
+                                mask: '99999-999',
+
+                                // optional
+
+                                /**
+                                 * validator: (Function | optional | defaults returns true)
+                                 * use this funcion to inform if the inputed value is a valid value (for invalid phone numbers, for example). The isValid method use this validator.
+                                */
+                                validator: function(value, settings) {
+                                    // Regex Check
+                                    var objER = /^[0-9]{5}-[0-9]{3}$/;
+                                    if(value.length > 0)
+                                        {
+                                            if(objER.test(value))
+                                                return true;
+                                            else
+                                                return false;
+                                        }
+                                    else
+                                        return false;
+                                },
+
+                                /**
+                                 * getRawValue: (Function | optional | defaults return current masked value)
+                                 * use this function to parse and return values to use what you want.
+                                 * for example, if you want to create a phone number mask (999) 999-99-99 but want to get only
+                                 * the numbers for value, use this method for this parse step.
+                                */
+                                getRawValue: function(value, settings) {
+                                return String(value.replace("-", ""));
+                                },
+                                /**
+                                 * translation: (Object | optional | defaults 9, A, S, *)
+                                 * the dictionary that translate mask and value.
+                                 * you can change defaults by simple override the key (9, A, S, *) or create some new.
+                                */
+                                translation: {
+                                // this is a custom translation. The others (9, A, S, *) still works.
+                                // this translation will be merged and turns into 9, A, S, *, #.
+                                '#': function(val) {
+                                    if (val === ' ') {
+                                    return val;
+                                    }
+
+                                    // if returns null, undefined or '' (empty string), the value will be ignored.
+                                    return null;
+                                },
+                                // in this case, we will override build-in * translation (allow all characters)
+                                // and set this to allow only blank spaces and some special characters.
+                                '*': function(val) {
+                                    return [' ', '#', ',', '.', '!'].indexOf(val) >= 0 ? val : null;
+                                }
+                                }
+                            }}
+                            value={workAddress}
+                            onChangeText={handleInputWorkAddressChange}
+                            onBlur={handleInputWorkAddressBlur}
+                            onFocus = {handleInputWorkAddressFocus}
+                            style={styles.input}
+                            ref={workAddressRef}
+                    />
+                        <MaterialIcons 
+                            name="work" 
+                            size={24}
+
+                            color = "gray"
+                            style={[
+                                styles.Icon,
+                                (isWorkAddressFocused || isWorkAddressFilled) && 
                                 {color: colors.blue}
                             ]}    
                         />
@@ -414,11 +558,12 @@ export function SignUp(){
                         <TextInput
                             placeholder="Senha"
                             style={styles.input}
+                            value = {password}
                             textContentType = 'password'
                             secureTextEntry = {true}
-                            onBlur={handleInputEmailBlur}
-                            onFocus = {handleInputEmailFocus}
-                            onChangeText = {handleInputEmailChange}
+                            onBlur={handleInputPasswordBlur}
+                            onFocus = {handleInputPasswordFocus}
+                            onChangeText = {handleInputPasswordChange}
                         />
                         <MaterialIcons 
                             name="lock" 
@@ -427,7 +572,7 @@ export function SignUp(){
                             color = "gray"
                             style={[
                                 styles.Icon,
-                                (isEmailFocused || isEmailFilled) && 
+                                (isPasswordFocused || isPasswordFilled) && 
                                 {color: colors.blue}
                             ]}    
                         />
