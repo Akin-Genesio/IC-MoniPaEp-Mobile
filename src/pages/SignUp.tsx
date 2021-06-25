@@ -7,6 +7,7 @@ import {
     TextInput,
     View
 } from 'react-native';
+import CheckBox from '@react-native-community/checkbox'
 import { TextInputMask } from 'react-native-masked-text';
 import { Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
@@ -59,6 +60,8 @@ export function SignUp(){
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
     const [password, setPassword] = useState<string>()
     const passwordRef = useRef(null)
+
+    const [isCheckBoxSelected, setCheckBoxSelection] = useState(false);
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -181,6 +184,11 @@ export function SignUp(){
         setPassword(value)
     }
 
+    //Function handle for Check CheckBox
+    function handleInputCheckBox(){
+        setCheckBoxSelection(!isCheckBoxSelected)
+    }
+
     
     function Check(){
         if(cpfRef != null){
@@ -201,7 +209,7 @@ export function SignUp(){
                 <Header/>   
                 <KeyboardAvoidingView  
                     style={styles.container}
-                    behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+                    //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
                 >                         
                         <View style={styles.container}>
                             <Text>Test input text</Text>
@@ -576,6 +584,19 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View> 
+                            <View style={[
+                                        styles.inputField,
+                                        (isCheckBoxSelected) && 
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <Text style={styles.label}>Possui plano de saúde privado? </Text>
+                                <Text style={styles.answer}>Sim:</Text>
+                                <CheckBox
+                                    value={isCheckBoxSelected}
+                                    onValueChange={handleInputCheckBox}
+                                />
+                            </View>
                             <Button
                                 title= "Check"
                                 onPress={Check}
@@ -615,6 +636,12 @@ const styles = StyleSheet.create({
         fontFamily: fonts.text,
         fontSize: 16,
         //textAlign: 'center'
+    },
+    label:{
+        fontFamily: fonts.generic  
+    },
+    answer: {
+        fontFamily: fonts.text
     }
    
   });
