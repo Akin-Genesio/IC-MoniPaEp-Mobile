@@ -1,18 +1,15 @@
-import { InputOutline, InputStandard } from 'react-native-input-outline';
+import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
-import {TextInputMask} from 'react-native-masked-text'
 import {
-    KeyboardAvoidingView, 
-    StyleSheet, 
-    Text, 
-    TextInput, 
-    View,
-    Platform,
-    Button
+    Button, KeyboardAvoidingView,
+    Platform, StyleSheet,
+    Text,
+    TextInput,
+    View
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import { Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
-import { MaterialIcons } from '@expo/vector-icons'; 
 import fonts from '../styles/fonts';
 
 export function SignUp(){
@@ -203,7 +200,7 @@ export function SignUp(){
             <KeyboardAvoidingView  
                 style={styles.container}
                 behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-            >                
+            >               
                 <View style={styles.container}>
                     <Text>Test input text</Text>
                     <View style={[
