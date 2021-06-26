@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox'
 import { TextInputMask } from 'react-native-masked-text';
-import { BlueButton, Header, SafeAreaView } from '../Components';
+import { GreenButton, Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import { BlueButton } from '../Components/BlueButton';
 
 export function SignUp(){
     //Seting useState and useRef to email
