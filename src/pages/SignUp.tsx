@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox'
 import { TextInputMask } from 'react-native-masked-text';
-import { Header, SafeAreaView } from '../Components';
+import { BlueButton, Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -649,11 +649,12 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View> 
-                            
-                            <Button
-                                title= "Check"
-                                onPress={Check}
-                            />
+                            <View style={styles.button}>
+                                <BlueButton
+                                    title="Cadastrar"
+                                    onPress={Check}
+                                />
+                            </View>
                         </View>
                     
                 </KeyboardAvoidingView>
@@ -695,6 +696,11 @@ const styles = StyleSheet.create({
     },
     answer: {
         fontFamily: fonts.text
+    },
+    button:{
+        //marginTop: 40,
+        width: 328,
+        padding: 40,
     }
    
   });
