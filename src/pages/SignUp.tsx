@@ -55,13 +55,20 @@ export function SignUp(){
     const [workAddress, setWorkAddress] = useState<string>()
     const workAddressRef = useRef(null)
 
+    //Seting useSate for CheckBox
+    const [isCheckBoxSelected, setCheckBoxSelection] = useState(false);
+
     //Seting useState and useRef to Password
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
     const [password, setPassword] = useState<string>()
     const passwordRef = useRef(null)
 
-    const [isCheckBoxSelected, setCheckBoxSelection] = useState(false);
+    //Seting useState and useRef to Confirm Password
+    const[isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false)
+    const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(false)
+    const [confirmPassword, setConfirmPassword] = useState<string>()
+    const confirmPasswordRef = useRef(null)
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -168,6 +175,10 @@ export function SignUp(){
         setWorkAddress(value)
     }
 
+    //Function handle for Check CheckBox
+    function handleInputCheckBox(){
+        setCheckBoxSelection(!isCheckBoxSelected)
+    }
 
     //Functions handle for Password
     function handleInputPasswordBlur(){
@@ -184,10 +195,22 @@ export function SignUp(){
         setPassword(value)
     }
 
-    //Function handle for Check CheckBox
-    function handleInputCheckBox(){
-        setCheckBoxSelection(!isCheckBoxSelected)
+    //Functions handle for Confirm Password
+    function handleInputConfirmPasswordBlur(){
+        setIsConfirmPasswordFocused(false)
+        setIsConfirmPasswordFilled(!!confirmPassword)
     }
+
+    function handleInputConfirmPasswordFocus(){
+        setIsConfirmPasswordFocused(true)
+    }
+
+    function handleInputConfirmPasswordChange(value: string){
+        setIsConfirmPasswordFilled(!!value)
+        setConfirmPassword(value)
+    }
+
+    
 
     
     function Check(){
@@ -558,7 +581,21 @@ export function SignUp(){
                             </View>
                             <View style={[
                                         styles.inputField,
-                                        (isEmailFocused || isEmailFilled) && 
+                                        (isCheckBoxSelected) && 
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <Text style={styles.label}>Possui plano de saúde privado? </Text>
+                                <Text style={styles.answer}>Sim:</Text>
+                                <CheckBox
+                                    value={isCheckBoxSelected}
+                                    onValueChange={handleInputCheckBox}
+                                />
+                            </View>
+
+                            <View style={[
+                                        styles.inputField,
+                                        (isPasswordFocused || isPasswordFilled) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
@@ -566,7 +603,7 @@ export function SignUp(){
                                     placeholder="Senha"
                                     style={styles.input}
                                     value = {password}
-                                    textContentType = 'password'
+                                    textContentType = 'newPassword'
                                     secureTextEntry = {true}
                                     onBlur={handleInputPasswordBlur}
                                     onFocus = {handleInputPasswordFocus}
@@ -586,17 +623,33 @@ export function SignUp(){
                             </View> 
                             <View style={[
                                         styles.inputField,
-                                        (isCheckBoxSelected) && 
+                                        (isConfirmPasswordFocused || isConfirmPasswordFilled) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
-                                <Text style={styles.label}>Possui plano de saúde privado? </Text>
-                                <Text style={styles.answer}>Sim:</Text>
-                                <CheckBox
-                                    value={isCheckBoxSelected}
-                                    onValueChange={handleInputCheckBox}
+                                <TextInput
+                                    placeholder="Confirme a senha"
+                                    style={styles.input}
+                                    value = {confirmPassword}
+                                    textContentType = 'password'
+                                    secureTextEntry = {true}
+                                    onBlur={handleInputConfirmPasswordBlur}
+                                    onFocus = {handleInputConfirmPasswordFocus}
+                                    onChangeText = {handleInputConfirmPasswordChange}
                                 />
-                            </View>
+                                <MaterialIcons 
+                                    name="lock-outline" 
+                                    size={24}
+
+                                    color = "gray"
+                                    style={[
+                                        styles.Icon,
+                                        (isConfirmPasswordFocused || isConfirmPasswordFilled) && 
+                                        {color: colors.blue}
+                                    ]}    
+                                />
+                            </View> 
+                            
                             <Button
                                 title= "Check"
                                 onPress={Check}
