@@ -211,19 +211,83 @@ export function SignUp(){
         setConfirmPassword(value)
     }
 
-    
+    //check with regex if the email is in the right format 
+    function validateEmail(email: string){
+        // Regex Check
+        var objER = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(email.length > 0)
+            {
+                if(objER.test(email))
+                    return true;
+                else
+                    return false;
+            }
+        else
+            return false;
+    }
 
-    
-    function Check(){
-        if(cpfRef != null){
-            const unmask = cpfRef?.current.getRawValue()
-            const cpfIsValid = cpfRef?.current.isValid()
-            const unmaskphone = phoneRef?.current.getRawValue()
-            const phoneIsValid = phoneRef?.current.isValid()
-            const unmaskHome = homeAddressRef?.current.getRawValue()
-            const homeIsValid = homeAddressRef?.current.isValid()
-            alert(homeIsValid)
-        }   
+    //Reset all states
+    function resetStates(){
+        setEmail('')
+        setName('')
+        setCPF('')
+        setPhone('')
+        setDate('')
+        setHomeAddress('')
+        setWorkAddress('')
+        setPassword('')
+        setConfirmPassword('')
+    }
+
+    function Check(){    
+        if(emailRef || name || cpfRef || phoneRef || dateRef || homeAddressRef || workAddressRef || passwordRef || confirmPasswordRef){
+            alert("Preencha todos os campos para efetuar o cadastro")
+            resetStates()
+            return
+        }
+        //Check Email
+        if(!validateEmail(String(email))){
+            alert("Por favor insira um email valido.")
+            resetStates()
+            return
+        }
+
+        //Check CPF
+        if(!cpfRef.current.isValid()){
+            alert("Por favor insira um cpf valido.")
+            resetStates()
+            return
+        }
+        //Check Phone number
+        if(!phoneRef.current.isValid()){
+            alert("Por favor insira um número de celular valido.")
+            resetStates()
+            return
+        }
+
+        //Check birthday
+        if(!dateRef.current.isValid()){
+            alert("Por favor insira uma data de nascimento valida")
+            resetStates()
+            return
+        }
+
+        //Check CEP
+        if(!homeAddressRef.current.isValid()){
+            alert("Por favor insira um cep valido como seu endereço.")
+            resetStates()
+            return
+        }
+
+        //Checks if the user has entered the same passwords in the password and password confirmation fields 
+        if(!(password === confirmPassword)){
+            alert("As senhas inseridas não conferem. Digite novamente.")
+            resetStates()
+            return
+        }
+
+        alert("Passou")
+            return
     }
 
     return(
@@ -236,7 +300,6 @@ export function SignUp(){
                     //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
                 >                         
                         <View style={styles.container}>
-                            <Text>Test input text</Text>
                             <View style={[
                                         styles.inputField,
                                         (isEmailFocused || isEmailFilled) && 
@@ -367,7 +430,7 @@ export function SignUp(){
                                     placeholder="Data de nascimento: DD/MM/AAAA"
                                     type = {'datetime'}
                                     options ={{
-                                        format: 'DD/MM/DD'
+                                        format: 'DD/MM/YYYY'
                                     }}
                                     value ={date}
                                     style={styles.input}
@@ -487,7 +550,7 @@ export function SignUp(){
 
                             <View style={[
                                         styles.inputField,
-                                        (isHomeAddressFocused || isHomeAddressFilled) && 
+                                        (isWorkAddressFocused || isWorkAddressFilled) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
@@ -593,7 +656,6 @@ export function SignUp(){
                                     onValueChange={handleInputCheckBox}
                                 />
                             </View>
-
                             <View style={[
                                         styles.inputField,
                                         (isPasswordFocused || isPasswordFilled) && 
