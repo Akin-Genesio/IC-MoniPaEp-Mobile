@@ -5,6 +5,7 @@ import {
     Platform, ScrollView, StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
@@ -170,12 +171,24 @@ export function Login(){
                             ]}    
                         />
                     </View>
-                    <View style={styles.button}>
-                        <BlueButton
-                            title="Entrar"
-                            onPress={Check}
-                        />
+                    <View style={styles.footer}>
+                        <TouchableOpacity>
+                            <Text style={styles.textLink}>Esqueceu sua senha?</Text>
+                        </TouchableOpacity>
+                        <View style={styles.button}>
+                            <BlueButton
+                                title="Entrar"
+                                onPress={Check}
+                            />
+                        </View>
+                        <View style={styles.textAndLink}>
+                            <Text style={styles.text}>Não possui uma conta?</Text>
+                            <TouchableOpacity>
+                                <Text style={styles.textLink}>Cadastre-se</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
+                    
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>
@@ -234,10 +247,29 @@ const styles = StyleSheet.create({
     answer: {
         fontFamily: fonts.text
     },
+    footer:{
+        padding: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textLink:{
+        color: colors.blue_dark1,
+        fontFamily: fonts.generic,
+        fontSize: 12
+    },
+    textAndLink:{
+        flexDirection: 'row',
+        padding: 70
+    },
+    text:{
+        fontFamily: fonts.generic,
+        fontSize: 12,
+        color: colors.gray_dark3
+    },
     button:{
         //marginTop: 40,
         width: 328,
-        padding: 40,
+        padding: 20,
     }
    
   });
