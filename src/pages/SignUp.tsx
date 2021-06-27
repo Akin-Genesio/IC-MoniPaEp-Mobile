@@ -332,6 +332,7 @@ export function SignUp(){
         setIsConfirmPasswordFilled(false)
     }
 
+    //Checks if all the inputs are valid
     function Check(){    
         if(!(emailRef || name || cpfRef || phoneRef || dateRef || homeAddressRef || passwordRef || confirmPasswordRef)){
             alert("Preencha todos os campos para efetuar o cadastro")
