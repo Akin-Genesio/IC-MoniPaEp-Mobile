@@ -226,21 +226,114 @@ export function SignUp(){
             return false;
     }
 
+    //Checks if password has Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
+    function validatePassword(password: string){
+        // Regex Check
+        var objER = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
+        if(password.length > 0)
+            {
+                if(objER.test(password))
+                    return true;
+                else
+                    return false;
+            }
+        else
+            return false;
+    }
+
+    //Reset email states
+    function resetEmail(){
+        setEmail('')
+        setIsEmailFocused(false)
+        setIsEmailFilled(false)
+    }
+
+    //Reset Name states
+    function resetName(){
+        setName('')
+        setIsNameFocused(false)
+        setIsNameFilled(false)
+    }
+
+    //Reset CPF states
+    function resetCPF(){
+        setCPF('')
+        setIsCPFFocused(false)
+        setIsCPFFilled(false)
+    }
+
+    //Reset Phone states
+    function resetPhone(){
+        setPhone('')
+        setIsPhoneFocused(false)
+        setIsPhoneFilled(false)
+    }
+
+    //Reset Date states
+    function resetDate(){
+        setDate('')
+        setIsDateFocused(false)
+        setIsDateFilled(false)
+    }
+
+    //Reset HomeAddress states
+    function resetHomeAddress(){
+        setHomeAddress('')
+        setIsHomeAddressFocused(false)
+        setIsHomeAddressFilled(false)
+    }
+
+    //Reset Password and ConfirmPassword states
+    function resetPassword(){
+        setPassword('')
+        setIsPasswordFocused(false)
+        setIsPasswordFilled(false)
+        setConfirmPassword('')
+        setIsConfirmPasswordFocused(false)
+        setIsConfirmPasswordFilled(false)
+    }
+
     //Reset all states
     function resetStates(){
         setEmail('')
+        setIsEmailFocused(false)
+        setIsEmailFilled(false)
+
         setName('')
+        setIsNameFocused(false)
+        setIsNameFilled(false)
+
         setCPF('')
+        setIsCPFFocused(false)
+        setIsCPFFilled(false)
+
         setPhone('')
+        setIsPhoneFocused(false)
+        setIsPhoneFilled(false)
+
         setDate('')
+        setIsDateFocused(false)
+        setIsDateFilled(false)
+
         setHomeAddress('')
+        setIsHomeAddressFocused(false)
+        setIsHomeAddressFilled(false)
+
         setWorkAddress('')
+        setIsWorkAddressFocused(false)
+        setIsWorkAddressFilled(false)
+
         setPassword('')
+        setIsPasswordFocused(false)
+        setIsPasswordFilled(false)
+
         setConfirmPassword('')
+        setIsConfirmPasswordFocused(false)
+        setIsConfirmPasswordFilled(false)
     }
 
     function Check(){    
-        if(emailRef || name || cpfRef || phoneRef || dateRef || homeAddressRef || workAddressRef || passwordRef || confirmPasswordRef){
+        if(!(emailRef || name || cpfRef || phoneRef || dateRef || homeAddressRef || passwordRef || confirmPasswordRef)){
             alert("Preencha todos os campos para efetuar o cadastro")
             resetStates()
             return
@@ -248,41 +341,48 @@ export function SignUp(){
         //Check Email
         if(!validateEmail(String(email))){
             alert("Por favor insira um email valido.")
-            resetStates()
+            resetEmail()
             return
         }
 
         //Check CPF
         if(!cpfRef.current.isValid()){
             alert("Por favor insira um cpf valido.")
-            resetStates()
+            resetCPF()
             return
         }
         //Check Phone number
         if(!phoneRef.current.isValid()){
             alert("Por favor insira um número de celular valido.")
-            resetStates()
+            resetPhone()
             return
         }
 
         //Check birthday
         if(!dateRef.current.isValid()){
             alert("Por favor insira uma data de nascimento valida")
-            resetStates()
+            resetDate()
             return
         }
 
         //Check CEP
         if(!homeAddressRef.current.isValid()){
             alert("Por favor insira um cep valido como seu endereço.")
-            resetStates()
+            resetHomeAddress()
+            return
+        }
+
+        //Checks if password is valid
+        if(!validatePassword(String(password))){
+            alert("A senha deve ter no minimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial")
+            resetPassword()
             return
         }
 
         //Checks if the user has entered the same passwords in the password and password confirmation fields 
         if(!(password === confirmPassword)){
             alert("As senhas inseridas não conferem. Digite novamente.")
-            resetStates()
+            resetPassword()
             return
         }
 
