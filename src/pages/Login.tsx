@@ -114,6 +114,9 @@ export function Login(){
                 //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
                 <View style={styles.container}>
+                    <View style={styles.warning}>
+                        <Text style={styles.warningText}>* Obrigatório </Text>
+                    </View>
                     <View style={[
                             styles.inputField,
                             (isCPFFocused || isCPFFilled) && 
@@ -143,6 +146,9 @@ export function Login(){
                             ]}    
                         />
                     </View>
+                    <View style={styles.warning}>
+                            <Text style={styles.warningText}>* Obrigatório </Text>
+                        </View>
                     <View style={[
                             styles.inputField,
                             (isPasswordFocused || isPasswordFilled) && 
@@ -220,6 +226,15 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: colors.blue
     },
+    warning:{
+        left: Dimensions.get('window').width * 0.33,
+        paddingTop: 10
+    },
+    warningText:{
+        fontFamily: fonts.text,
+        fontSize: 8,
+        color: colors.red
+    },
     inputField: {
         //flex: 1,
         flexDirection: 'row',
@@ -268,7 +283,7 @@ const styles = StyleSheet.create({
     },
     button:{
         //marginTop: 40,
-        width: 328,
+        width: Dimensions.get('window').width * 0.9,
         padding: 20,
     }
    
