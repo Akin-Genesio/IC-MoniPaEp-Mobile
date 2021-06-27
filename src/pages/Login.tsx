@@ -8,7 +8,7 @@ import {
     View
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-import { BlueButton, SafeAreaView } from '../Components';
+import { BlueButton, OutlineBlueButton, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
