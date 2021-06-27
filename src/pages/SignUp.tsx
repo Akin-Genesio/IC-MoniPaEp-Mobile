@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useRef, useState } from 'react';
 import {
-    Button, KeyboardAvoidingView,
+    Button, Dimensions, KeyboardAvoidingView,
     Platform, ScrollView, StyleSheet,
     Text,
     TextInput,
@@ -401,6 +401,9 @@ export function SignUp(){
                     //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
                 >                         
                         <View style={styles.container}>
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isEmailFocused || isEmailFilled) && 
@@ -431,6 +434,10 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View>
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isNameFocused || isNameFilled) && 
@@ -457,6 +464,10 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View> 
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isCPFFocused || isCPFFilled) && 
@@ -486,6 +497,10 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View> 
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isPhoneFocused || isPhoneFilled) && 
@@ -521,6 +536,10 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View>
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isDateFocused || isDateFilled) && 
@@ -552,6 +571,10 @@ export function SignUp(){
                                         {color: colors.blue}
                                     ]}    
                                 />
+                            </View>
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
                             </View>
                             <View style={[
                                         styles.inputField,
@@ -757,6 +780,10 @@ export function SignUp(){
                                     onValueChange={handleInputCheckBox}
                                 />
                             </View>
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isPasswordFocused || isPasswordFilled) && 
@@ -785,6 +812,10 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View> 
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isConfirmPasswordFocused || isConfirmPasswordFilled) && 
@@ -834,6 +865,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    warning:{
+        left: Dimensions.get('window').width * 0.33,
+        paddingTop: 10
+    },
+    warningText:{
+        fontFamily: fonts.text,
+        fontSize: 8,
+        color: colors.red
+    },
     inputField: {
         //flex: 1,
         flexDirection: 'row',
@@ -863,7 +903,7 @@ const styles = StyleSheet.create({
     },
     button:{
         //marginTop: 40,
-        width: 328,
+        width: Dimensions.get('window').width * 0.9,
         padding: 40,
     }
    
