@@ -17,6 +17,7 @@ import {useFonts,
 import AppLoading from 'expo-app-loading'
 import { Header } from './src/Components';
 import { Login, SignUp } from './src/pages';
+import Routes from './src/routes';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -38,7 +39,7 @@ export default function App() {
   }
   return(
     <SafeAreaProvider>
-      <SignUp/>
+      <Routes/>
     </SafeAreaProvider>
   )
 }
