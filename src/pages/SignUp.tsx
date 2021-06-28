@@ -13,6 +13,7 @@ import { GreenButton, Header, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { BlueButton } from '../Components/BlueButton';
+import { useNavigation } from '@react-navigation/native';
 
 export function SignUp(){
     //Seting useState and useRef to email
@@ -70,6 +71,9 @@ export function SignUp(){
     const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState<string>()
     const confirmPasswordRef = useRef(null)
+
+    //Creating const for navigation
+    const navigation = useNavigation()
     
     //Functions handle for email
     function handleInputEmailBlur(){
@@ -293,52 +297,13 @@ export function SignUp(){
         setIsConfirmPasswordFilled(false)
     }
 
-    //Reset all states
-    function resetStates(){
-        setEmail('')
-        setIsEmailFocused(false)
-        setIsEmailFilled(false)
 
-        setName('')
-        setIsNameFocused(false)
-        setIsNameFilled(false)
-
-        setCPF('')
-        setIsCPFFocused(false)
-        setIsCPFFilled(false)
-
-        setPhone('')
-        setIsPhoneFocused(false)
-        setIsPhoneFilled(false)
-
-        setDate('')
-        setIsDateFocused(false)
-        setIsDateFilled(false)
-
-        setHomeAddress('')
-        setIsHomeAddressFocused(false)
-        setIsHomeAddressFilled(false)
-
-        setWorkAddress('')
-        setIsWorkAddressFocused(false)
-        setIsWorkAddressFilled(false)
-
-        setPassword('')
-        setIsPasswordFocused(false)
-        setIsPasswordFilled(false)
-
-        setConfirmPassword('')
-        setIsConfirmPasswordFocused(false)
-        setIsConfirmPasswordFilled(false)
+    function handleLogin(){
+        navigation.navigate('Login')
     }
 
     //Checks if all the inputs are valid
     function Check(){    
-        if(!(emailRef || name || cpfRef || phoneRef || dateRef || homeAddressRef || passwordRef || confirmPasswordRef)){
-            alert("Preencha todos os campos para efetuar o cadastro")
-            resetStates()
-            return
-        }
         //Check Email
         if(!validateEmail(String(email))){
             alert("Por favor insira um email valido.")
@@ -388,6 +353,7 @@ export function SignUp(){
         }
 
         alert("Passou")
+        handleLogin()
             return
     }
 
