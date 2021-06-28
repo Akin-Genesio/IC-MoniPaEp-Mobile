@@ -6,8 +6,10 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { useNavigation } from '@react-navigation/native';
 
-
-export function Header(){
+interface HeaderProps{
+    titleScreen: string
+}
+export function Header({titleScreen}: HeaderProps){
     const navigation = useNavigation()
     
     function handleGoBack(){
@@ -22,7 +24,9 @@ export function Header(){
                     <MaterialIcons style={styles.incons} name="chevron-left" size={30} color="white" />
                 </TouchableOpacity>
                     <View style={styles.textScreenName}>
-                        <Text style={styles.textScreenName}>"Screen Name"</Text>
+                        <Text style={styles.textScreenName}>
+                            {titleScreen}
+                        </Text>
                     </View>
                 
                 </View>

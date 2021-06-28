@@ -395,7 +395,9 @@ export function SignUp(){
         <SafeAreaView>
             
             <ScrollView scrollEnabled = {true}>
-                <Header/>   
+                <Header
+                    titleScreen='Cadastro'
+                />   
                 <KeyboardAvoidingView  
                     style={styles.container}
                     //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
