@@ -2,13 +2,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import React, { useRef, useState } from 'react';
 import {
-    Button, Dimensions, KeyboardAvoidingView,
+    Button, Dimensions, Keyboard, KeyboardAvoidingView,
     Platform, ScrollView, StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
     View
 } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
 import { BlueButton, OutlineBlueButton, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
@@ -113,99 +114,103 @@ export function Login(){
 
     return(
         <SafeAreaView>
-            <View style={styles.header}>
-                <Text style={styles.welcome}>Bem-Vindo ao</Text>
-                <Text style={styles.appName}>MoniPaEp</Text>
-            </View>
             <KeyboardAvoidingView  
                 style={styles.container}
                 //behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             >
-                <View style={styles.container}>
-                    <View style={styles.warning}>
-                        <Text style={styles.warningText}>* Obrigatório </Text>
+                <TouchableWithoutFeedback
+                    onPress={Keyboard.dismiss}
+                >
+                    <View style={styles.header}>
+                        <Text style={styles.welcome}>Bem-Vindo ao</Text>
+                        <Text style={styles.appName}>MoniPaEp</Text>
                     </View>
-                    <View style={[
-                            styles.inputField,
-                            (isCPFFocused || isCPFFilled) && 
-                            {borderColor: colors.blue}
-                        ]}
-                    >
-                        <TextInputMask
-                            placeholder="CPF"
-                            type = {'cpf'}
-                            value ={cpf}
-                            style={styles.input}
-                            onBlur={handleInputCPFBlur}
-                            onFocus = {handleInputCPFFocus}
-                            onChangeText = {handleInputCPFChange}
-                            ref={cpfRef}
-                            
-                        />
-                        <MaterialIcons 
-                            name="person-outline" 
-                            size={24}
-
-                            color = "gray"
-                            style={[
-                                styles.Icon,
-                                (isCPFFocused || isCPFFilled) && 
-                                {color: colors.blue}
-                            ]}    
-                        />
-                    </View>
-                    <View style={styles.warning}>
+                
+                    <View style={styles.container}>
+                        <View style={styles.warning}>
                             <Text style={styles.warningText}>* Obrigatório </Text>
                         </View>
-                    <View style={[
-                            styles.inputField,
-                            (isPasswordFocused || isPasswordFilled) && 
-                            {borderColor: colors.blue}
-                        ]}
-                    >
-                        <TextInput
-                            placeholder="Senha"
-                            style={styles.input}
-                            value = {password}
-                            textContentType = 'newPassword'
-                            secureTextEntry = {true}
-                            onBlur={handleInputPasswordBlur}
-                            onFocus = {handleInputPasswordFocus}
-                            onChangeText = {handleInputPasswordChange}
-                        />
-                        <MaterialIcons 
-                            name="lock" 
-                            size={24}
+                        <View style={[
+                                styles.inputField,
+                                (isCPFFocused || isCPFFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                        >
+                            <TextInputMask
+                                placeholder="CPF"
+                                type = {'cpf'}
+                                value ={cpf}
+                                style={styles.input}
+                                onBlur={handleInputCPFBlur}
+                                onFocus = {handleInputCPFFocus}
+                                onChangeText = {handleInputCPFChange}
+                                ref={cpfRef}
+                                
+                            />
+                            <MaterialIcons 
+                                name="person-outline" 
+                                size={24}
 
-                            color = "gray"
-                            style={[
-                                styles.Icon,
-                                (isPasswordFocused || isPasswordFilled) && 
-                                {color: colors.blue}
-                            ]}    
-                        />
-                    </View>
-                    <View style={styles.footer}>
-                        <TouchableOpacity>
-                            <Text style={styles.textLink}>Esqueceu sua senha?</Text>
-                        </TouchableOpacity>
-                        <View style={styles.button}>
-                            <BlueButton
-                                title="Entrar"
-                                onPress={Check}
+                                color = "gray"
+                                style={[
+                                    styles.Icon,
+                                    (isCPFFocused || isCPFFilled) && 
+                                    {color: colors.blue}
+                                ]}    
                             />
                         </View>
-                        <View style={styles.textAndLink}>
-                            <Text style={styles.text}>Não possui uma conta? </Text>
-                            <TouchableOpacity
-                                onPress={handleSignUp}
-                            >
-                                <Text style={styles.textLink}>Cadastre-se</Text>
+                        <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
+                        <View style={[
+                                styles.inputField,
+                                (isPasswordFocused || isPasswordFilled) && 
+                                {borderColor: colors.blue}
+                            ]}
+                        >
+                            <TextInput
+                                placeholder="Senha"
+                                style={styles.input}
+                                value = {password}
+                                textContentType = 'newPassword'
+                                secureTextEntry = {true}
+                                onBlur={handleInputPasswordBlur}
+                                onFocus = {handleInputPasswordFocus}
+                                onChangeText = {handleInputPasswordChange}
+                            />
+                            <MaterialIcons 
+                                name="lock" 
+                                size={24}
+
+                                color = "gray"
+                                style={[
+                                    styles.Icon,
+                                    (isPasswordFocused || isPasswordFilled) && 
+                                    {color: colors.blue}
+                                ]}    
+                            />
+                        </View>
+                        <View style={styles.footer}>
+                            <TouchableOpacity>
+                                <Text style={styles.textLink}>Esqueceu sua senha?</Text>
                             </TouchableOpacity>
+                            <View style={styles.button}>
+                                <BlueButton
+                                    title="Entrar"
+                                    onPress={Check}
+                                />
+                            </View>
+                            <View style={styles.textAndLink}>
+                                <Text style={styles.text}>Não possui uma conta? </Text>
+                                <TouchableOpacity
+                                    onPress={handleSignUp}
+                                >
+                                    <Text style={styles.textLink}>Cadastre-se</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                    
-                </View>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
