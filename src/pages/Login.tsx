@@ -1,4 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
 import React, { useRef, useState } from 'react';
 import {
     Button, Dimensions, KeyboardAvoidingView,
@@ -25,6 +26,9 @@ export function Login(){
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
     const [password, setPassword] = useState<string>()
     const passwordRef = useRef(null)
+
+    //Creating const for navigation
+    const navigation = useNavigation()
 
     //Functions handle for CPF
     function handleInputCPFBlur(){
@@ -101,6 +105,10 @@ export function Login(){
 
         alert("Passou")
         return
+    }
+
+    function handleSignUp(){
+        navigation.navigate('SignUP')
     }
 
     return(
@@ -188,8 +196,10 @@ export function Login(){
                             />
                         </View>
                         <View style={styles.textAndLink}>
-                            <Text style={styles.text}>Não possui uma conta?</Text>
-                            <TouchableOpacity>
+                            <Text style={styles.text}>Não possui uma conta? </Text>
+                            <TouchableOpacity
+                                onPress={handleSignUp}
+                            >
                                 <Text style={styles.textLink}>Cadastre-se</Text>
                             </TouchableOpacity>
                         </View>

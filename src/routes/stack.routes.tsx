@@ -13,7 +13,7 @@ const AppRoutes: React.FC = () => (
                 backgroundColor: colors.white
             }
         }}
-    >
+    > 
         <stackRoutes.Screen
             name = "Login"
             component={Login}
