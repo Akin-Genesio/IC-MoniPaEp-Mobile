@@ -1,16 +1,26 @@
 import React from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native'
+import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'; 
 import {SafeAreaView} from './SafeAreaView';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import { useNavigation } from '@react-navigation/native';
 
 
 export function Header(){
+    const navigation = useNavigation()
+    
+    function handleGoBack(){
+        navigation.goBack()
+    }
     return(
         <View>
             <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={handleGoBack}
+                >
                     <MaterialIcons style={styles.incons} name="chevron-left" size={30} color="white" />
+                </TouchableOpacity>
                     <View style={styles.textScreenName}>
                         <Text style={styles.textScreenName}>"Screen Name"</Text>
                     </View>
