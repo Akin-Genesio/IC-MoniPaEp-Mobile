@@ -14,7 +14,7 @@
   <a href="#funcionalidades futuras">Funcionalidades Futuras</a> •
 </p>
 
-![](https://github.com/vinicius-claus/CursoReactNative/blob/main/figma.png)
+![](https://github.com/vinicius-claus/IC-MoniPaEp-Mobile/blob/main/figma.png)
 
 
 ## 🚀 Como executar
