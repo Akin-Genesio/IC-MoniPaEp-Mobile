@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox'
 import { TextInputMask } from 'react-native-masked-text';
-import { GreenButton, Header, SafeAreaView } from '../Components';
+import { GreenButton, Header, HeaderWithOutMenu, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { BlueButton } from '../Components/BlueButton';
@@ -361,7 +361,7 @@ export function SignUp(){
         <SafeAreaView>
             
             <ScrollView scrollEnabled = {true}>
-                <Header
+                <HeaderWithOutMenu
                     titleScreen='Cadastro'
                 />   
                 <KeyboardAvoidingView  
