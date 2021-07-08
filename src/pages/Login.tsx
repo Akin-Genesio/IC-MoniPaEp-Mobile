@@ -105,6 +105,7 @@ export function Login(){
         }
 
         alert("Passou")
+        navigation.navigate('Profile')
         return
     }
 

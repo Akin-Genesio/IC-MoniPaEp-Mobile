@@ -1,19 +1,19 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import CheckBox from '@react-native-community/checkbox';
+import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import {
-    Button, Dimensions, KeyboardAvoidingView,
-    Platform, ScrollView, StyleSheet,
+    Dimensions, KeyboardAvoidingView,
+    ScrollView, StyleSheet,
     Text,
     TextInput,
     View
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox'
 import { TextInputMask } from 'react-native-masked-text';
-import { GreenButton, Header, HeaderWithOutMenu, SafeAreaView } from '../Components';
+import { HeaderWithOutMenu, SafeAreaView } from '../Components';
+import { BlueButton } from '../Components/BlueButton';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { BlueButton } from '../Components/BlueButton';
-import { useNavigation } from '@react-navigation/native';
 
 export function SignUp(){
     //Seting useState and useRef to email
