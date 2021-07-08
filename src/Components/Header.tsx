@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'   
     },
     incons: {
-        paddingLeft: 5
+        padding: 20
     },
     textScreenName: {
         fontFamily: fonts.generic,

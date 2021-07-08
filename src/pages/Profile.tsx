@@ -19,21 +19,24 @@ import patientImg from '../assets/patientImg.png'
 
 export function Profile(){
     return(
-        <SafeAreaView
-            style={styles.container}
-        >
+        <SafeAreaView>
             <HeaderSimple
                 titleScreen="Profile"
             />
             <View
-                style={styles.bodyUp}
+                style={styles.container}
             >
                 <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
-                <Image 
-                    source={patientImg}
-                    style = {styles.image}    
-                />
+                <View
+                    style={styles.bodyUp}
+                >
+                    
+                    <Image 
+                        source={patientImg}
+                        style = {styles.image}    
+                    />
 
+                </View>
             </View>
 
         </SafeAreaView>
@@ -42,15 +45,17 @@ export function Profile(){
 
 const styles = StyleSheet.create({
     container:{
-        alignItems: 'center',
+        
     },
     bodyUp:{
-
+        alignItems: 'center',
     },
     icons:{
-
+        padding: 20
     },
     image:{
-
+        width: Dimensions.get('window').height * 0.35,
+        height: Dimensions.get('window').height * 0.35,
+        borderRadius: (Dimensions.get('window').height * 0.35)/2
     }
 })
