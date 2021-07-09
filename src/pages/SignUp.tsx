@@ -12,6 +12,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import { HeaderWithOutMenu, SafeAreaView } from '../Components';
 import { BlueButton } from '../Components/BlueButton';
+import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -71,6 +72,18 @@ export function SignUp(){
     const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState<string>()
     const confirmPasswordRef = useRef(null)
+
+    //Seting useState and useRef to Neighborhood
+    const[isNeighborhoodFocused, setIsNeighborhoodFocused] = useState(false)
+    const [isNeighborhoodFilled, setIsNeighborhoodFilled] = useState(false)
+    const [neighborhood, setNeighborhood] = useState<string>()
+    const neighborhoodRef = useRef(null)
+
+    //Seting useState and useRef to HouseNumber
+    const[isHouseNumberFocused, setIsHouseNumberFocused] = useState(false)
+    const [isHouseNumberFilled, setIsHouseNumberFilled] = useState(false)
+    const [houseNumber, setHouseNumber] = useState<number>()
+    const houseNumberRef = useRef(null)
 
     //Creating const for navigation
     const navigation = useNavigation()
@@ -215,6 +228,37 @@ export function SignUp(){
         setConfirmPassword(value)
     }
 
+    //Functions handle for Neighborhood
+    function handleInputNeighborhoodBlur(){
+        setIsNeighborhoodFocused(false)
+        setIsNeighborhoodFilled(!!neighborhood)
+    }
+
+    function handleInputNeighborhoodFocus(){
+        setIsNeighborhoodFocused(true)
+    }
+
+    function handleInputNeighborhoodChange(value: string){
+        setIsNeighborhoodFilled(!!value)
+        setNeighborhood(value)
+    }
+
+    //Functions handle for HouseNumber
+    function handleInputHouseNumberBlur(){
+        setIsHouseNumberFocused(false)
+        setIsHouseNumberFilled(!!houseNumber)
+    }
+
+    function handleInputHouseNumberFocus(){
+        setIsHouseNumberFocused(true)
+    }
+
+    function handleInputHouseNumberChange(value: string){
+        setIsHouseNumberFilled(!!value)
+        setHouseNumber(+value)
+    }
+    
+
     //check with regex if the email is in the right format 
     function validateEmail(email: string){
         // Regex Check
@@ -287,6 +331,20 @@ export function SignUp(){
         setIsHomeAddressFilled(false)
     }
 
+    //Reset Neighborhood states
+    function resetNeighborhood(){
+        setNeighborhood('')
+        setIsNeighborhoodFocused(false)
+        setIsNeighborhoodFilled(false)
+    }
+
+    //Reset HouseNumber states
+    function resetHouseNumber(){
+        setHouseNumber(0)
+        setIsHouseNumberFocused(false)
+        setIsHouseNumberFilled(false)
+    }
+
     //Reset Password and ConfirmPassword states
     function resetPassword(){
         setPassword('')
@@ -308,6 +366,13 @@ export function SignUp(){
         if(!validateEmail(String(email))){
             alert("Por favor insira um email valido.")
             resetEmail()
+            return
+        }
+
+        //Check Name
+        if(!name){
+            alert("Por favor insira seu nome.")
+            resetName()
             return
         }
 
@@ -335,6 +400,20 @@ export function SignUp(){
         if(!homeAddressRef.current.isValid()){
             alert("Por favor insira um cep valido como seu endereço.")
             resetHomeAddress()
+            return
+        }
+
+        //Check Neighborhood
+        if(!neighborhood){
+            alert("Por favor insira o nome do seu bairro.")
+            resetNeighborhood()
+            return
+        }
+
+        //Check HouseNumber
+        if(!houseNumber){
+            alert("Por favor insira o número da sua casa.")
+            resetHouseNumber()
             return
         }
 
@@ -639,7 +718,67 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View>
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
+                            <View style={[
+                                        styles.inputField,
+                                        (isNeighborhoodFocused || isNeighborhoodFilled) && 
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <TextInput
+                                    placeholder="Bairro"
+                                    style={styles.input}
+                                    textContentType = 'location'
+                                    onBlur={handleInputNeighborhoodBlur}
+                                    onFocus = {handleInputNeighborhoodFocus}
+                                    onChangeText = {handleInputNeighborhoodChange}
+                                />
+                                <MaterialIcons 
+                                    name="house-siding" 
+                                    size={24}
 
+                                    color = "gray"
+                                    style={[
+                                        styles.Icon,
+                                        (isNeighborhoodFocused || isNeighborhoodFilled) && 
+                                        {color: colors.blue}
+                                    ]}    
+                                />
+                            </View> 
+                            
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
+                            <View style={[
+                                        styles.inputField,
+                                        (isHouseNumberFocused || isHouseNumberFilled) && 
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <TextInput
+                                    placeholder="Número da casa"
+                                    style={styles.input}
+                                    textContentType = 'location'
+                                    keyboardType='numeric'
+                                    onBlur={handleInputHouseNumberBlur}
+                                    onFocus = {handleInputHouseNumberFocus}
+                                    onChangeText = {handleInputHouseNumberChange}
+                                />
+                                <MaterialIcons 
+                                    name="add-location" 
+                                    size={24}
+
+                                    color = "gray"
+                                    style={[
+                                        styles.Icon,
+                                        (isHouseNumberFocused || isHouseNumberFilled) && 
+                                        {color: colors.blue}
+                                    ]}    
+                                />
+                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isWorkAddressFocused || isWorkAddressFilled) && 
