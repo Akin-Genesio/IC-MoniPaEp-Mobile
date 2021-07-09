@@ -28,7 +28,8 @@ export function TestSingUp(){
     const neighborhood = 'jardim do lago'
     const houseNumber = 277
     const HealthPlan = false
-    const birthDate = '29-06-1997'
+    const birthDate = '1997-06-29'
+    const date = new Date(birthDate)
     const allowSMS = true
 
     async function Submit() {
@@ -41,7 +42,7 @@ export function TestSingUp(){
             neighborhood: neighborhood,
             houseNumber: houseNumber,
             hasHealthPlan: HealthPlan,
-            dateOfBirth: birthDate,
+            dateOfBirth: date,
             password: password,
             allowSMS: allowSMS
         })
