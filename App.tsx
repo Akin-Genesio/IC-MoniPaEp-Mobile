@@ -40,7 +40,7 @@ export default function App() {
   }
   return(
     <SafeAreaProvider>
-      <TestSingUp/>
+      <Routes/>
     </SafeAreaProvider>
   )
 }

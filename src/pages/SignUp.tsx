@@ -363,13 +363,25 @@ export function SignUp(){
         setIsConfirmPasswordFilled(false)
     }
 
+    function resetAllFields(){
+        resetEmail()
+        resetName()
+        resetCPF()
+        resetDate()
+        resetHomeAddress()
+        resetHouseNumber()
+        resetNeighborhood()
+        resetPassword()
+        resetPhone()
+    }
+
 
     function handleLogin(){
         navigation.navigate('Login')
     }
 
     //Checks if all the inputs are valid
-    function Check(){    
+    async function Check(){    
         //Check Email
         if(!validateEmail(String(email))){
             alert("Por favor insira um email valido.")
@@ -439,9 +451,30 @@ export function SignUp(){
             return
         }
 
-        alert("Passou")
-        handleLogin()
-            return
+        //Submit data to database
+        try{
+            const response = await api.post('/patients/signup',{
+                email: email,
+                name: name,
+                CPF: cpfRef.current.getRawValue(),
+                workAddress: workAddress,
+                homeAddress: homeAddress,
+                neighborhood: neighborhood,
+                houseNumber: houseNumber,
+                hasHealthPlan: isHealthPlanSelected,
+                dateOfBirth: dateRef.current.getRawValue(),
+                password: password,
+                allowSMS: isAllowMessageSelected
+            })
+    
+            alert(response.data.token)
+            handleLogin()
+        }catch(error){
+            alert(error)
+            resetAllFields()
+        }
+
+        return
     }
 
     return(
