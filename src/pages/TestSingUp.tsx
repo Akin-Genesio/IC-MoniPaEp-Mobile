@@ -28,9 +28,33 @@ export function TestSingUp(){
     const neighborhood = 'jardim do lago'
     const houseNumber = 277
     const HealthPlan = false
-    const birthDate = '1997-06-29'
-    const date = new Date(birthDate)
+    //const birthDate = '29/06/1997'
+    //const date = new Date(birthDate)
     const allowSMS = true
+    //const text = "2019-26-09";
+    //const regex = /(\d{2})-(\d{2})-(\d{4})/g;
+    //console.log(text.replace(regex, "$2/$3/$1"));
+
+    //Seting useState and useRef to Date number
+    const[isDateFocused, setIsDateFocused] = useState(false)
+    const [isDateFilled, setIsDateFilled] = useState(false)
+    const [dateTest, setDate] = useState<string>()
+    const dateRef = useRef(null)
+    
+    //Functions handle for Date of birth
+    function handleInputDateBlur(){
+        setIsDateFocused(false)
+        setIsDateFilled(!!dateTest)
+    }
+
+    function handleInputDateFocus(){
+        setIsDateFocused(true)
+    }
+
+    function handleInputDateChange(value: string){
+        setIsDateFilled(!!value)
+        setDate(value)
+    }
 
     async function Submit() {
         const response = await api.post('/patients/signup',{
@@ -42,12 +66,17 @@ export function TestSingUp(){
             neighborhood: neighborhood,
             houseNumber: houseNumber,
             hasHealthPlan: HealthPlan,
-            dateOfBirth: date,
+            //dateOfBirth: date,
+            dateOfBirth: dateRef.current.getRawValue(),
             password: password,
             allowSMS: allowSMS
         })
 
         alert(response.data.token)
+    }
+
+    function DataTest(){
+        alert(dateRef.current.getRawValue())
     }
     return(
         <SafeAreaView>
@@ -56,6 +85,25 @@ export function TestSingUp(){
                     title="Submit"
                     onPress={Submit}
                 />
+                <View style={styles.button}>
+                    <TextInputMask
+                        placeholder="Data de nascimento: DD/MM/AAAA"
+                        type = {'datetime'}
+                        options ={{
+                            format: 'DD/MM/YYYY'
+                        }}
+                        value ={dateTest}
+                        onBlur={handleInputDateBlur}
+                        onFocus = {handleInputDateFocus}
+                        onChangeText = {handleInputDateChange}
+                        ref={dateRef}
+                                    
+                    />
+                    <Button
+                        title="DataTest"
+                        onPress={DataTest}
+                    />
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -65,5 +113,8 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         alignContent: 'center'
+    },
+    button: {
+        padding: 20
     }
 })
