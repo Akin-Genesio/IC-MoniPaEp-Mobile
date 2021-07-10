@@ -58,8 +58,11 @@ export function SignUp(){
     const [workAddress, setWorkAddress] = useState<string>()
     const workAddressRef = useRef(null)
 
-    //Seting useSate for CheckBox
-    const [isCheckBoxSelected, setCheckBoxSelection] = useState(false);
+    //Seting useSate for Health Plan
+    const [isHealthPlanSelected, setHealthPlanSelection] = useState(false);
+
+    //Seting useSate for Allow Message
+    const [isAllowMessageSelected, setAllowMessageSelection] = useState(false);
 
     //Seting useState and useRef to Password
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
@@ -193,9 +196,14 @@ export function SignUp(){
         setWorkAddress(value)
     }
 
-    //Function handle for Check CheckBox
-    function handleInputCheckBox(){
-        setCheckBoxSelection(!isCheckBoxSelected)
+    //Function handle for Health Plan
+    function handleInputHealthPlan(){
+        setHealthPlanSelection(!isHealthPlanSelected)
+    }
+
+    //Function handle for Health Plan
+    function handleInputAllowMessage(){
+        setAllowMessageSelection(!isAllowMessageSelected)
     }
 
     //Functions handle for Password
@@ -876,15 +884,29 @@ export function SignUp(){
                             </View>
                             <View style={[
                                         styles.inputField,
-                                        (isCheckBoxSelected) && 
+                                        (isHealthPlanSelected) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
                                 <Text style={styles.label}>Possui plano de saúde privado? </Text>
                                 <Text style={styles.answer}>Sim:</Text>
                                 <CheckBox
-                                    value={isCheckBoxSelected}
-                                    onValueChange={handleInputCheckBox}
+                                    value={isHealthPlanSelected}
+                                    onValueChange={handleInputHealthPlan}
+                                />
+                            </View>
+
+                            <View style={[
+                                        styles.inputField,
+                                        (isAllowMessageSelected) && 
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <Text style={styles.label}>Nos permite enviar messagens? </Text>
+                                <Text style={styles.answer}>Sim:</Text>
+                                <CheckBox
+                                    value={isAllowMessageSelected}
+                                    onValueChange={handleInputAllowMessage}
                                 />
                             </View>
                             
