@@ -3,6 +3,7 @@ import CheckBox from '@react-native-community/checkbox';
 import { useNavigation } from '@react-navigation/native';
 import React, { useRef, useState } from 'react';
 import {
+    Alert,
     Dimensions, KeyboardAvoidingView,
     ScrollView, StyleSheet,
     Text,
@@ -384,70 +385,150 @@ export function SignUp(){
     async function Check(){    
         //Check Email
         if(!validateEmail(String(email))){
-            alert("Por favor insira um email valido.")
-            resetEmail()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira um email valido.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetEmail())
+                    }
+                ]
+            )
             return
         }
 
         //Check Name
         if(!name){
-            alert("Por favor insira seu nome.")
-            resetName()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira seu nome.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetName())
+                    }
+                ]
+            )
             return
         }
 
         //Check CPF
         if(!cpfRef.current.isValid()){
-            alert("Por favor insira um cpf valido.")
-            resetCPF()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira um cpf valido.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetCPF())
+                    }
+                ]
+            )
             return
         }
         //Check Phone number
         if(!phoneRef.current.isValid()){
-            alert("Por favor insira um número de celular valido.")
-            resetPhone()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira um número de celular valido.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetPhone())
+                    }
+                ]
+            )
             return
         }
 
         //Check birthday
         if(!dateRef.current.isValid()){
-            alert("Por favor insira uma data de nascimento valida")
-            resetDate()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira uma data de nascimento valida",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetDate())
+                    }
+                ]
+            )
             return
         }
 
         //Check CEP
         if(!homeAddressRef.current.isValid()){
-            alert("Por favor insira um cep valido como seu endereço.")
-            resetHomeAddress()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira um cep valido como seu endereço.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetHomeAddress())
+                    }
+                ]
+            )
             return
         }
 
         //Check Neighborhood
         if(!neighborhood){
-            alert("Por favor insira o nome do seu bairro.")
-            resetNeighborhood()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira o nome do seu bairro.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetNeighborhood())
+                    }
+                ]
+            )
             return
         }
 
         //Check HouseNumber
         if(!houseNumber){
-            alert("Por favor insira o número da sua casa.")
-            resetHouseNumber()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor insira o número da sua casa.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetHouseNumber())
+                    }
+                ]
+            )
             return
         }
 
         //Checks if password is valid
         if(!validatePassword(String(password))){
-            alert("A senha deve ter no minimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial")
-            resetPassword()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "A senha deve ter no minimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetPassword())
+                    }
+                ]
+            )
             return
         }
 
         //Checks if the user has entered the same passwords in the password and password confirmation fields 
         if(!(password === confirmPassword)){
-            alert("As senhas inseridas não conferem. Digite novamente.")
-            resetPassword()
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "As senhas inseridas não conferem. Digite novamente.",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetPassword())
+                    }
+                ]
+            )
             return
         }
 
@@ -457,6 +538,7 @@ export function SignUp(){
                 email: email,
                 name: name,
                 CPF: cpfRef.current.getRawValue(),
+                phone: phoneRef.current.getRawValue(),
                 workAddress: workAddress,
                 homeAddress: homeAddress,
                 neighborhood: neighborhood,
@@ -467,10 +549,26 @@ export function SignUp(){
                 allowSMS: isAllowMessageSelected
             })
     
-            alert(response.data.token)
-            handleLogin()
+            Alert.alert(
+                "Cadastro Efetuado",
+                "Seu cadastro foi concluido com sucesso",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (handleLogin())
+                    }
+                ]
+            )
         }catch(error){
-            alert(error.response.data.message)
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                error.response.data.message,
+                [
+                    {
+                        text: "Ok"
+                    }
+                ]
+            )
         }
 
         return

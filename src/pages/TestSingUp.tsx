@@ -40,6 +40,12 @@ export function TestSingUp(){
     const [isDateFilled, setIsDateFilled] = useState(false)
     const [dateTest, setDate] = useState<string>()
     const dateRef = useRef(null)
+
+    //Seting useState and useRef to Cellphone number
+    const[isPhoneFocused, setIsPhoneFocused] = useState(false)
+    const [isPhoneFilled, setIsPhoneFilled] = useState(false)
+    const [phone, setPhone] = useState<string>()
+    const phoneRef = useRef(null)
     
     //Functions handle for Date of birth
     function handleInputDateBlur(){
@@ -54,6 +60,21 @@ export function TestSingUp(){
     function handleInputDateChange(value: string){
         setIsDateFilled(!!value)
         setDate(value)
+    }
+
+     //Functions handle for Phone number
+     function handleInputPhoneBlur(){
+        setIsPhoneFocused(false)
+        setIsPhoneFilled(!!phone)
+    }
+
+    function handleInputPhoneFocus(){
+        setIsPhoneFocused(true)
+    }
+
+    function handleInputPhoneChange(value: string){
+        setIsPhoneFilled(!!value)
+        setPhone(value)
     }
 
     async function Submit() {
@@ -78,6 +99,10 @@ export function TestSingUp(){
     function DataTest(){
         alert(dateRef.current.getRawValue())
     }
+
+    function PhoneTest(){
+        alert(phoneRef.current.getRawValue())
+    }
     return(
         <SafeAreaView>
             <View style={styles.container}>
@@ -99,9 +124,30 @@ export function TestSingUp(){
                         ref={dateRef}
                                     
                     />
+
+                    <TextInputMask
+                        placeholder="Numero de Telefone"
+                        type = {'cel-phone'}
+                        textContentType = 'telephoneNumber'
+                        options ={{
+                            maskType: 'BRL',
+                            withDDD: true,
+                            dddMask: '(99) '
+                        }}
+                        value ={phone}
+                        onBlur={handleInputPhoneBlur}
+                        onFocus = {handleInputPhoneFocus}
+                        onChangeText = {handleInputPhoneChange}
+                        ref={phoneRef}
+                        
+                    />
                     <Button
                         title="DataTest"
                         onPress={DataTest}
+                    />
+                    <Button
+                        title="Phone"
+                        onPress={PhoneTest}
                     />
                 </View>
             </View>
