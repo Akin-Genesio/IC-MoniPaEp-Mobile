@@ -470,8 +470,7 @@ export function SignUp(){
             alert(response.data.token)
             handleLogin()
         }catch(error){
-            alert(error)
-            resetAllFields()
+            alert(error.response.data.message)
         }
 
         return
