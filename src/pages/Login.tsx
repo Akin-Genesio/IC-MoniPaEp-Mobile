@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
 import React, { useRef, useState } from 'react';
 import {
+    Alert,
     Button, Dimensions, Keyboard, KeyboardAvoidingView,
     Platform, ScrollView, StyleSheet,
     Text,
@@ -14,6 +15,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import { BlueButton, OutlineBlueButton, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import api from '../services/api';
 
 export function Login(){
     //Seting useState and useRef to CPF
@@ -74,6 +76,10 @@ export function Login(){
         setIsPasswordFilled(false)
     }
 
+    function handleProfile(){
+        navigation.navigate('Profile')
+    }
+    
     //Checks if password has Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
     function validatePassword(password: string){
         // Regex Check
@@ -90,7 +96,7 @@ export function Login(){
     }
 
     //Checks if all inputs are valid
-    function Check(){
+    async function Check(){
         //Check CPF
         if(!cpfRef?.current.isValid()){
             alert("Por favor insira um cpf valido.")
@@ -104,8 +110,35 @@ export function Login(){
             return
         }
 
-        alert("Passou")
-        navigation.navigate('Profile')
+        //Submit data to database
+        try{
+            const response = await api.post('/patients/login',{
+                CPF: cpfRef.current.getRawValue(),
+                password: password
+            })
+    
+            Alert.alert(
+                "Login Efetuado",
+                "Bem vindo",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (handleProfile())
+                    }
+                ]
+            )
+        }catch(error){
+            Alert.alert(
+                "Erro ao efetuar o login",
+                error.response.data.message,
+                [
+                    {
+                        text: "Ok"
+                    }
+                ]
+            )
+        }
+
         return
     }
 

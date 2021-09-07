@@ -544,7 +544,7 @@ export function SignUp(){
                 neighborhood: neighborhood,
                 houseNumber: houseNumber,
                 hasHealthPlan: isHealthPlanSelected,
-                dateOfBirth: dateRef.current.getRawValue(),
+                birthdate: dateRef,
                 password: password,
                 allowSMS: isAllowMessageSelected
             })
