@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BlueButton, OutlineBlueButton, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import api from '../services/api';
+import { AxiosResponse } from 'axios';
 
 export function Login(){
     //Seting useState and useRef to CPF
@@ -76,7 +78,45 @@ export function Login(){
         setIsPasswordFilled(false)
     }
 
-    function handleProfile(){
+    async function getUser(){
+        try {
+            const value = await AsyncStorage.getItem('@User')
+            if(value !== null) {
+                return value
+            }
+          } catch(e) {
+              return null
+          }
+    }
+
+    async function getAccessToken(){
+        try {
+            const value = await AsyncStorage.getItem('@AccessToken')
+            if(value !== null) {
+                return value
+            }
+          } catch(e) {
+              return null
+          }
+    }
+
+    async function getRefreshToken(){
+        try {
+            const jsonValue = await AsyncStorage.getItem('@RefreshToken')
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+          } catch(e) {
+            // error reading value
+          }
+    }
+    async function handleProfile(){
+        const patientId = await getUser()
+        const token = await getAccessToken()
+        const refreshToken = await getRefreshToken()
+
+        console.log("Exibindo AsyncStorage")
+        console.log(patientId)
+        console.log(token)
+        console.log(refreshToken)
         navigation.navigate('Profile')
     }
     
@@ -95,18 +135,58 @@ export function Login(){
             return false;
     }
 
+    async function saveUserAndTokens(req: any){
+        //Saving Patient
+        try {
+            await AsyncStorage.setItem('@User', req.patientId)
+          } catch (e) {
+            // saving error
+          }
+
+          //Saving access token
+          try {
+            await AsyncStorage.setItem('@AccessToken', req.token)
+          } catch (e) {
+            // saving error
+          }
+
+          //Saving refresh token
+          try {
+            const refreshToken = JSON.stringify(req.refreshToken)
+            await AsyncStorage.setItem('@RefreshToken', refreshToken)
+          } catch (e) {
+            // saving error
+          }
+    }
+
     //Checks if all inputs are valid
     async function Check(){
         //Check CPF
         if(!cpfRef?.current.isValid()){
-            alert("Por favor insira um cpf valido.")
-            resetCPF()
+            Alert.alert(
+                "Erro",
+                "Por favor insira um CPF válido",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetCPF())
+                    }
+                ]
+            )         
             return
         }
 
         if(!validatePassword(String(password))){
-            alert("Por favor insira uma senha valida")
-            resetPassword()
+            Alert.alert(
+                "Erro",
+                "Por favor insira uma senha valida",
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (resetPassword())
+                    }
+                ]
+            )
             return
         }
 
@@ -116,7 +196,17 @@ export function Login(){
                 CPF: cpfRef.current.getRawValue(),
                 password: password
             })
-    
+            
+            const user = response.data
+
+            /*
+            console.log(user)
+            console.log("Pós Obj")
+            console.log(user.patientId)
+            console.log(user.token)
+            console.log(user.refreshToken)
+            */
+            await saveUserAndTokens(user)
             Alert.alert(
                 "Login Efetuado",
                 "Bem vindo",
