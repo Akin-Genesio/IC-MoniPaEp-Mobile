@@ -1,10 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import React, { useRef, useState } from 'react';
 import {
     Alert,
-    Button, Dimensions, Keyboard, KeyboardAvoidingView,
-    Platform, ScrollView, StyleSheet,
+    Dimensions, Keyboard, KeyboardAvoidingView,
+    StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
@@ -12,12 +13,10 @@ import {
 } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BlueButton, OutlineBlueButton, SafeAreaView } from '../Components';
+import { BlueButton, SafeAreaView } from '../Components';
+import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import api from '../services/api';
-import { AxiosResponse } from 'axios';
 
 export function Login(){
     //Seting useState and useRef to CPF
@@ -80,10 +79,8 @@ export function Login(){
 
     async function getUser(){
         try {
-            const value = await AsyncStorage.getItem('@User')
-            if(value !== null) {
-                return value
-            }
+            const jsonValue = await AsyncStorage.getItem('@User')
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
           } catch(e) {
               return null
           }
@@ -138,7 +135,8 @@ export function Login(){
     async function saveUserAndTokens(req: any){
         //Saving Patient
         try {
-            await AsyncStorage.setItem('@User', req.patientId)
+            const patient = JSON.stringify(req.patient)
+            await AsyncStorage.setItem('@User', patient)
           } catch (e) {
             // saving error
           }

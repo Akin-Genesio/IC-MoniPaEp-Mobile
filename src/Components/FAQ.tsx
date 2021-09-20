@@ -8,7 +8,7 @@ interface GreenButtonProps extends TouchableOpacityProps{
     title: string;
 }
 
-export function GreenButton({title, ...rest}: GreenButtonProps){
+export function FAQ({title, ...rest}: GreenButtonProps){
     return(
         <TouchableOpacity style={styles.container}>
             <Text 
@@ -23,15 +23,17 @@ export function GreenButton({title, ...rest}: GreenButtonProps){
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: colors.green,
+        backgroundColor: colors.white,
         height: 40,
         borderRadius: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: colors.green
     },
     text:{
         fontSize: 16,
-        color: colors.white,
+        color: colors.green,
         fontFamily: fonts.warning
     }
 })

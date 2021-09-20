@@ -16,6 +16,7 @@ export default{
     gray_dark3: '#0d0d0e',
     
     white: '#ffffff',
+    black: '#000000',
 
     red: '#ff0000'
 }
