@@ -1,25 +1,42 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/core';
-import React, { useRef, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AppLoading from 'expo-app-loading';
+import React, { useEffect, useState } from 'react';
 import {
-    Button, Dimensions, Image, Keyboard, KeyboardAvoidingView,
-    Platform, ScrollView, StyleSheet,
+    Dimensions, Image,
+    StyleSheet,
     Text,
-    TextInput,
-    TouchableOpacity,
+
+
     View
 } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { TextInputMask } from 'react-native-masked-text';
-import { BlueButton, FAQ, GreenButton, HeaderSimple, OutlineBlueButton, SafeAreaView } from '../Components';
+import patientImg from '../assets/patientImg.png';
+import { FAQ, GreenButton, HeaderSimple, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-import patientImg from '../assets/patientImg.png'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Profile(){
+    const[isLoading, setIsLoading] = useState(false)
+    const[User, setUser] = useState(null)
+    const[AccessToken, setAccessToken] = useState(' ')
+    const[RefreshToken, setRefreshToken] = useState(null)
+    
+    
+    useEffect(() => {
+        async function LoadingData() {
+            setIsLoading(true)
+            const user = await getUser()
+            const token = await getAccessToken()
+            const refresh = await getRefreshToken()
 
+            setUser(user)
+            setAccessToken(token)
+            setRefreshToken(refresh)
+            setIsLoading(false)
+        }
+        LoadingData()
+    },[])
     async function getUser(){
         try {
             const jsonValue = await AsyncStorage.getItem('@User')
@@ -35,8 +52,9 @@ export function Profile(){
             if(value !== null) {
                 return value
             }
+                return ' '
           } catch(e) {
-              return null
+              return ' '
           }
     }
 
@@ -61,47 +79,56 @@ export function Profile(){
         console.log(token)
         console.log(refreshToken)
     }
-    return(
-        <SafeAreaView>
-            <HeaderSimple
-                titleScreen= "Bem vindo(a)"
-            />
-            <View
-                style={styles.container}
-            >
-                <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
+
+    if(isLoading){
+        return (
+          <AppLoading/>
+        );
+    }else{
+        return(
+            <SafeAreaView>
+                <HeaderSimple
+                    titleScreen= {`Bem vindo(a) ${User.name}`}
+                />
                 <View
-                    style={styles.bodyUp}
+                    style={styles.container}
                 >
+                    <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
+                    <View
+                        style={styles.bodyUp}
+                    >
+                        
+                        <Image 
+                            source={patientImg}
+                            style = {styles.image}    
+                        />
                     
-                    <Image 
-                        source={patientImg}
-                        style = {styles.image}    
-                    />
-                
+                    </View>
+    
+                    <View style={styles.bottom}>
+    
+                        <Text style={styles.text}>
+                            Você está a X dias sem atualizar o seus sintomas!
+                        </Text>
+                        <GreenButton
+                            title="Atualizar Sintomas"
+                            onPress={Data}
+                        />
+                        
+                        <Text style={styles.status}>
+                            Seu Status atual é:
+                        </Text>
+                        <FAQ
+                            title = "Perguntas Frequentes"
+                        />
+                    </View>
                 </View>
+    
+            </SafeAreaView>
+        )
+    }
 
-                <View style={styles.bottom}>
-
-                    <Text style={styles.text}>
-                        Você está a X dias sem atualizar o seus sintomas!
-                    </Text>
-                    <GreenButton
-                        title="Atualizar Sintomas"
-                        onPress={Data}
-                    />
-                    
-                    <Text style={styles.status}>
-                        Seu Status atual é:
-                    </Text>
-                    <FAQ
-                        title = "Perguntas Frequentes"
-                    />
-                </View>
-            </View>
-
-        </SafeAreaView>
-    )
+    
 }
 
 const styles = StyleSheet.create({
@@ -123,6 +150,8 @@ const styles = StyleSheet.create({
         //marginTop: 40,
         width: Dimensions.get('window').width * 0.9,
         padding: 20,
+        
+        
     },
     text:{
         fontSize: 20,
