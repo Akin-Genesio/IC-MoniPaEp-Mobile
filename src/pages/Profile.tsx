@@ -11,14 +11,14 @@ import {
     View
 } from 'react-native';
 import patientImg from '../assets/patientImg.png';
-import { FAQ, GreenButton, HeaderSimple, SafeAreaView } from '../Components';
+import { FAQ, GreenButton, HeaderSimple, PatientStatus, SafeAreaView } from '../Components';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 
 export function Profile(){
     const[isLoading, setIsLoading] = useState(false)
-    const[User, setUser] = useState(null)
+    const[User, setUser] = useState({})
     const[AccessToken, setAccessToken] = useState(' ')
     const[RefreshToken, setRefreshToken] = useState(null)
     
@@ -118,6 +118,9 @@ export function Profile(){
                         <Text style={styles.status}>
                             Seu Status atual é:
                         </Text>
+                        <PatientStatus
+                            title={User.status}
+                        />
                         <FAQ
                             title = "Perguntas Frequentes"
                         />
