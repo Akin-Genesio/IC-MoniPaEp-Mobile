@@ -1,9 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {useFonts, 
-  Inter_100Thin, 
+import {
+  Inter_100Thin,
   Inter_200ExtraLight,
   Inter_300Light,
   Inter_400Regular,
@@ -11,14 +7,15 @@ import {useFonts,
   Inter_600SemiBold,
   Inter_700Bold,
   Inter_800ExtraBold,
-  Inter_900Black  
-} from '@expo-google-fonts/inter'
-
-import AppLoading from 'expo-app-loading'
-import { Header } from './src/Components';
-import { Login, SignUp } from './src/pages';
+  Inter_900Black, useFonts
+} from '@expo-google-fonts/inter';
+import { NavigationContainer } from '@react-navigation/native';
+import AppLoading from 'expo-app-loading';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Routes from './src/routes';
-import { TestSingUp } from './src/pages/TestSingUp';
+import {AuthProvider} from './src/contexts/Auth'
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -39,9 +36,14 @@ export default function App() {
     );
   }
   return(
-    <SafeAreaProvider>
-      <Routes/>
-    </SafeAreaProvider>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Routes/>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </AuthProvider>
+    
   )
 }
 

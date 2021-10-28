@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/core';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import {
     Alert,
     Dimensions, Keyboard, KeyboardAvoidingView,
@@ -15,10 +15,14 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { TextInputMask } from 'react-native-masked-text';
 import { BlueButton, SafeAreaView } from '../Components';
 import api from '../services/api';
+import {useAuth} from '../contexts/Auth'
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export function Login(){
+    //Seting function singIn with use Context
+    const {signIn, signed} = useAuth()
+
     //Seting useState and useRef to CPF
     const[isCPFFocused, setIsCPFFocused] = useState(false)
     const [isCPFFilled, setIsCPFFilled] = useState(false)
@@ -28,7 +32,7 @@ export function Login(){
     //Seting useState and useRef to Password
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
-    const [password, setPassword] = useState<string>()
+    const [password, setPassword] = useState<string>('')
     const passwordRef = useRef(null)
 
     //Creating const for navigation
@@ -77,6 +81,7 @@ export function Login(){
         setIsPasswordFilled(false)
     }
 
+    /*
     async function getUser(){
         try {
             const jsonValue = await AsyncStorage.getItem('@User')
@@ -105,6 +110,8 @@ export function Login(){
             // error reading value
           }
     }
+    
+
     async function handleProfile(){
         const patientId = await getUser()
         const token = await getAccessToken()
@@ -116,6 +123,7 @@ export function Login(){
         console.log(refreshToken)
         navigation.navigate('Profile')
     }
+    */
     
     //Checks if password has Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
     function validatePassword(password: string){
@@ -131,6 +139,7 @@ export function Login(){
         else
             return false;
     }
+    /*
 
     async function saveUserAndTokens(req: any){
         //Saving Patient
@@ -156,7 +165,7 @@ export function Login(){
             // saving error
           }
     }
-
+    */
     //Checks if all inputs are valid
     async function Check(){
         //Check CPF
@@ -189,14 +198,10 @@ export function Login(){
         }
 
         //Submit data to database
-        try{
-            const response = await api.post('/patients/login',{
-                CPF: cpfRef.current.getRawValue(),
-                password: password
-            })
-            
+        try{            
+            const response = await signIn(cpfRef?.current.getRawValue(), password)
             const user = response.data
-
+            console.log("Se esta logado: "+ signed)
             /*
             console.log(user)
             console.log("Pós Obj")
@@ -204,14 +209,13 @@ export function Login(){
             console.log(user.token)
             console.log(user.refreshToken)
             */
-            await saveUserAndTokens(user)
+            //await saveUserAndTokens(user)
             Alert.alert(
                 "Login Efetuado",
                 "Bem vindo",
                 [
                     {
                         text: "Ok",
-                        onPress: () => (handleProfile())
                     }
                 ]
             )
@@ -229,7 +233,7 @@ export function Login(){
 
         return
     }
-
+    
     function handleSignUp(){
         navigation.navigate('SignUP')
     }

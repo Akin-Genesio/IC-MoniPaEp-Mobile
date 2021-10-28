@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     Dimensions, Image,
     StyleSheet,
@@ -12,31 +12,35 @@ import {
 } from 'react-native';
 import patientImg from '../assets/patientImg.png';
 import { FAQ, GreenButton, HeaderSimple, PatientStatus, SafeAreaView } from '../Components';
+import {useAuth} from '../contexts/Auth';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 
 export function Profile(){
     const[isLoading, setIsLoading] = useState(false)
-    const[User, setUser] = useState({})
-    const[AccessToken, setAccessToken] = useState(' ')
-    const[RefreshToken, setRefreshToken] = useState(null)
+    const {user, refreshToken, token, signed, signOut} = useAuth()
+   //const[User, setUser] = useState<object | null>()
+    //const[AccessToken, setAccessToken] = useState(' ')
+    //const[RefreshToken, setRefreshToken] = useState<object | null>(null)
     
-    
+    /*
     useEffect(() => {
         async function LoadingData() {
             setIsLoading(true)
-            const user = await getUser()
-            const token = await getAccessToken()
-            const refresh = await getRefreshToken()
+            
+            //const token = await getAccessToken()
+            //const refresh = await getRefreshToken()
 
             setUser(user)
             setAccessToken(token)
-            setRefreshToken(refresh)
+            setRefreshToken(refreshToken)
             setIsLoading(false)
         }
         LoadingData()
     },[])
+    **/
+    /*
     async function getUser(){
         try {
             const jsonValue = await AsyncStorage.getItem('@User')
@@ -66,18 +70,19 @@ export function Profile(){
             // error reading value
           }
     }
-
+    */
     //let [patientLoaded] = await getUser
     
     async function Data(){
-        const patientId = await getUser()
-        const token = await getAccessToken()
-        const refreshToken = await getRefreshToken()
+        //const patientId = await getUser()
+        //const token = await getAccessToken()
+        //const refreshToken = await getRefreshToken()
 
         console.log("Exibindo AsyncStorage do Perfil")
-        console.log(patientId)
+        console.log(user)
         console.log(token)
         console.log(refreshToken)
+        console.log("Signed: "+signed)
     }
 
     if(isLoading){
@@ -88,7 +93,7 @@ export function Profile(){
         return(
             <SafeAreaView>
                 <HeaderSimple
-                    titleScreen= {`Bem vindo(a) ${User.name}`}
+                    titleScreen= {`Bem vindo(a) ${user?.name}`}
                 />
                 <View
                     style={styles.container}
@@ -119,10 +124,11 @@ export function Profile(){
                             Seu Status atual é:
                         </Text>
                         <PatientStatus
-                            title={User.status}
+                            title={user?.status? user.status : ''}
                         />
                         <FAQ
                             title = "Perguntas Frequentes"
+                            onPress={signOut}
                         />
                     </View>
                 </View>
