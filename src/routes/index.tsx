@@ -10,15 +10,8 @@ import AppRoutes from './app.routes'
 
 
 const Routes = () =>{
-    const {signed, loading} = useAuth()
-    
-    if(loading){
-        return(
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#666"/>
-            </View>
-        )
-    }
+    const {signed} = useAuth()
+ 
     
     return signed? <AppRoutes/> : <AuthRoutes/>
 }

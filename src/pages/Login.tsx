@@ -81,6 +81,12 @@ export function Login(){
         setIsPasswordFilled(false)
     }
 
+    //Reset Password and CPF states
+    function resetAll(){
+        resetCPF()
+        resetPassword()
+    }
+
     /*
     async function getUser(){
         try {
@@ -200,8 +206,6 @@ export function Login(){
         //Submit data to database
         try{            
             const response = await signIn(cpfRef?.current.getRawValue(), password)
-            const user = response.data
-            console.log("Se esta logado: "+ signed)
             /*
             console.log(user)
             console.log("Pós Obj")
@@ -221,11 +225,12 @@ export function Login(){
             )
         }catch(error){
             Alert.alert(
-                "Erro ao efetuar o login",
+                "Erro ao efetuar o login.\nConfira se digitou corretamente",
                 error.response.data.message,
                 [
                     {
-                        text: "Ok"
+                        text: "Ok",
+                        onPress: () => (resetAll())
                     }
                 ]
             )

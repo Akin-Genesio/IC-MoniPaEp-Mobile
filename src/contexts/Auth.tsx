@@ -17,11 +17,12 @@ interface User{
     hasHealthPlan: string
     birthdate: Date
     status: string
+    activeAccount: boolean
 }
 
 interface data{
     data:{
-        User: object;
+        User: User;
         AccessToken: object;
         token: string;
     }
@@ -29,10 +30,9 @@ interface data{
 
 interface AutContextData{
     signed: boolean;
-    user: User | null;
+    user: User |null;
     refreshToken: object |null;
     token: string;
-    loading: boolean;
     signIn(CPF: string, password: string): Promise<data>;
     signOut(): void;
     
@@ -44,24 +44,8 @@ export const AuthProvider: React.FC = ({children}) => {
     const [user, setUser] = useState<User | null>(null)
     const [refreshToken, setRefreshToken] = useState<object | null>(null)
     const [token, setToken] = useState<string>('')
-    const [loading, setLoading] = useState<boolean>(true)
 
-    useEffect(() =>{
-        async function loadStorageData(){
-            const storagedUser = await AsyncStorage.getItem('@MHAuth:user')
-            const storagedAccessToken = await AsyncStorage.getItem('@MHAuth:accessToken')
-            const storagedToken = await AsyncStorage.getItem('@MHAuth:token')
-            
-            if(storagedUser && storagedAccessToken && storagedToken){
-                api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
-                setUser(JSON.parse(storagedUser))
-                setRefreshToken(JSON.parse(storagedAccessToken))
-                setToken(storagedToken)
-            }
-            setLoading(false)
-        }
-        loadStorageData()
-    })
+
     async function signIn(CPF: string, password: string){
         const response = await api.post('/patients/login',{
             CPF: CPF,
@@ -77,16 +61,18 @@ export const AuthProvider: React.FC = ({children}) => {
         await AsyncStorage.setItem('@MHAuth:user', JSON.stringify(user))
         await AsyncStorage.setItem('@MHAuth:accessToken', JSON.stringify(refreshToken))
         await AsyncStorage.setItem('@MHAuth:token', token)
+
         return response
     }
 
-    function signOut(){
+    async function signOut(){
         AsyncStorage.clear().then(() => {
+            console.log("Entrei no singOut")
             setUser(null)
         })
     }
     return (
-    <AuthContext.Provider value ={{user, refreshToken, token, signOut, signIn, signed: !!user, loading}}>
+    <AuthContext.Provider value ={{user, refreshToken, token, signOut, signIn, signed: !!user,}}>
         {children}
     </AuthContext.Provider>
     )}

@@ -19,7 +19,7 @@ export function PatientStatus({title}: PatientStatusPropos){
             <View style={styles.container}>
                 <AntDesign name="Safety" size={50} color= {colors.green} />
                 <Text 
-                    style={styles.text}   
+                    style={styles.textG}   
                 >
                    {title}
                 </Text>
@@ -29,9 +29,9 @@ export function PatientStatus({title}: PatientStatusPropos){
     else if (title == 'Suspeito'){
         return(
             <View style={styles.container}>
-                <Entypo name="creative-commons-attribution" size={50} color= {colors.green} />
+                <Entypo name="creative-commons-attribution" size={50} color= {colors.yellow} />
                 <Text 
-                    style={styles.text}   
+                    style={styles.textY}   
                 >
                    {title}
                 </Text>
@@ -41,9 +41,9 @@ export function PatientStatus({title}: PatientStatusPropos){
     else{
         return(
             <View style={styles.container}>
-                <MaterialIcons name="coronavirus" size={50} color= {colors.green} />
+                <MaterialIcons name="coronavirus" size={50} color= {colors.red} />
                 <Text 
-                    style={styles.text}   
+                    style={styles.textR}   
                 >
                    {title}
                 </Text>
@@ -60,9 +60,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 10
     },
-    text:{
+    textG:{
         fontSize: 26,
         color: colors.green,
+        fontFamily: fonts.generic
+    },
+    textR:{
+        fontSize: 26,
+        color: colors.red,
+        fontFamily: fonts.generic
+    },
+    textY:{
+        fontSize: 26,
+        color: colors.yellow,
         fontFamily: fonts.generic
     }
 })
