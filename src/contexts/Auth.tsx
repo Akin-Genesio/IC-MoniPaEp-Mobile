@@ -18,6 +18,7 @@ interface User{
     birthdate: Date
     status: string
     activeAccount: boolean
+    createdAt: Date
 }
 
 interface data{

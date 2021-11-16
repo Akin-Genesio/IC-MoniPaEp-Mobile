@@ -20,6 +20,7 @@ import fonts from '../styles/fonts';
 export function Profile(){
     const[isLoading, setIsLoading] = useState(false)
     const {user, refreshToken, token, signed, signOut} = useAuth()
+
    //const[User, setUser] = useState<object | null>()
     //const[AccessToken, setAccessToken] = useState(' ')
     //const[RefreshToken, setRefreshToken] = useState<object | null>(null)
@@ -85,59 +86,51 @@ export function Profile(){
         console.log("Signed: "+signed)
     }
 
-    if(isLoading){
-        return (
-          <AppLoading/>
-        );
-    }else{
-        return(
-            <SafeAreaView>
-                <HeaderSimple
-                    titleScreen= {`Bem vindo(a) ${user?.name}`}
-                />
+    return(
+        <SafeAreaView>
+            <HeaderSimple
+                titleScreen= {`Bem vindo(a) ${user?.name.split(' ')[0]}`}
+            />
+            <View
+                style={styles.container}
+            >
+                <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
                 <View
-                    style={styles.container}
+                    style={styles.bodyUp}
                 >
-                    <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
-                    <View
-                        style={styles.bodyUp}
-                    >
-                        
-                        <Image 
-                            source={patientImg}
-                            style = {styles.image}    
-                        />
                     
-                    </View>
-    
-                    <View style={styles.bottom}>
-    
-                        <Text style={styles.text}>
-                            Você está a X dias sem atualizar o seus sintomas!
-                        </Text>
-                        <GreenButton
-                            title="Atualizar Sintomas"
-                            onPress={Data}
-                        />
-                        
-                        <Text style={styles.status}>
-                            Seu Status atual é:
-                        </Text>
-                        <PatientStatus
-                            title={user?.status? user.status : ''}
-                        />
-                        <FAQ
-                            title = "Perguntas Frequentes"
-                            onPress={signOut}
-                        />
-                    </View>
+                    <Image 
+                        source={patientImg}
+                        style = {styles.image}    
+                    />
+                
                 </View>
-    
-            </SafeAreaView>
-        )
-    }
 
-    
+                <View style={styles.bottom}>
+
+                    <Text style={styles.text}>
+                        Você está a X dias sem atualizar o seus sintomas!
+                    </Text>
+                    <GreenButton
+                        title="Atualizar Sintomas"
+                        onPress={Data}
+                    />
+                    
+                    <Text style={styles.status}>
+                        Seu Status atual é:
+                    </Text>
+                    <PatientStatus
+                        title={user?.status? user.status : ''}
+                    />
+                    <FAQ
+                        title = "Perguntas Frequentes"
+                        onPress={signOut}
+                    />
+                </View>
+            </View>
+
+        </SafeAreaView>
+    )
 }
 
 const styles = StyleSheet.create({

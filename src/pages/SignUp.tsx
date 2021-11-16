@@ -630,7 +630,7 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
-                                    placeholder="Name"
+                                    placeholder="Nome Completo"
                                     style={styles.input}
                                     textContentType = 'name'
                                     onBlur={handleInputNameBlur}
