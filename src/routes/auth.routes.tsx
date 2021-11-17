@@ -6,7 +6,7 @@ import { Login, Profile, SignUp } from '../pages';
 const AuthStack = createStackNavigator()
 
 const AuthRoutes: React.FC = () => (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator headerMode = "none">
         <AuthStack.Screen name = "Login" component ={Login}/>
         <AuthStack.Screen name = "SignUP" component ={SignUp}/>
     </AuthStack.Navigator>

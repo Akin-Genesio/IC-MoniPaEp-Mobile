@@ -1,7 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import AppLoading from 'expo-app-loading';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Dimensions, Image,
     StyleSheet,
@@ -12,7 +10,7 @@ import {
 } from 'react-native';
 import patientImg from '../assets/patientImg.png';
 import { FAQ, GreenButton, HeaderSimple, PatientStatus, SafeAreaView } from '../Components';
-import {useAuth} from '../contexts/Auth';
+import { useAuth } from '../contexts/Auth';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -20,66 +18,18 @@ import fonts from '../styles/fonts';
 export function Profile(){
     const[isLoading, setIsLoading] = useState(false)
     const {user, refreshToken, token, signed, signOut} = useAuth()
-
-   //const[User, setUser] = useState<object | null>()
-    //const[AccessToken, setAccessToken] = useState(' ')
-    //const[RefreshToken, setRefreshToken] = useState<object | null>(null)
     
-    /*
-    useEffect(() => {
-        async function LoadingData() {
-            setIsLoading(true)
-            
-            //const token = await getAccessToken()
-            //const refresh = await getRefreshToken()
+    const date = user?.lastUpdate
+    const difference= Math.abs((Date.now())- Date.parse(date));
+    const days = Math.round(difference/(1000 * 3600 * 24))
 
-            setUser(user)
-            setAccessToken(token)
-            setRefreshToken(refreshToken)
-            setIsLoading(false)
-        }
-        LoadingData()
-    },[])
-    **/
-    /*
-    async function getUser(){
-        try {
-            const jsonValue = await AsyncStorage.getItem('@User')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-          } catch(e) {
-              return null
-          }
-    }
 
-    async function getAccessToken(){
-        try {
-            const value = await AsyncStorage.getItem('@AccessToken')
-            if(value !== null) {
-                return value
-            }
-                return ' '
-          } catch(e) {
-              return ' '
-          }
-    }
-
-    async function getRefreshToken(){
-        try {
-            const jsonValue = await AsyncStorage.getItem('@RefreshToken')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-          } catch(e) {
-            // error reading value
-          }
-    }
-    */
-    //let [patientLoaded] = await getUser
-    
     async function Data(){
         //const patientId = await getUser()
         //const token = await getAccessToken()
         //const refreshToken = await getRefreshToken()
 
-        console.log("Exibindo AsyncStorage do Perfil")
+        console.log("Exibindo UseContext")
         console.log(user)
         console.log(token)
         console.log(refreshToken)
@@ -101,7 +51,8 @@ export function Profile(){
                     
                     <Image 
                         source={patientImg}
-                        style = {styles.image}    
+                        style = {styles.image}
+                        accessibilityLabel = "Foto do usuário" 
                     />
                 
                 </View>
@@ -109,7 +60,7 @@ export function Profile(){
                 <View style={styles.bottom}>
 
                     <Text style={styles.text}>
-                        Você está a X dias sem atualizar o seus sintomas!
+                        Você está a {days} dias sem atualizar o seus sintomas!
                     </Text>
                     <GreenButton
                         title="Atualizar Sintomas"

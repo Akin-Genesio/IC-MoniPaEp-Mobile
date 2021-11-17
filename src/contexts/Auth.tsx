@@ -19,6 +19,7 @@ interface User{
     status: string
     activeAccount: boolean
     createdAt: Date
+    lastUpdate: Date
 }
 
 interface data{
