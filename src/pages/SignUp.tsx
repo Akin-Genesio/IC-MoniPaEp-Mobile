@@ -575,7 +575,10 @@ export function SignUp(){
     }
 
     return(
-        <SafeAreaView>
+        <SafeAreaView 
+            accessible={true}
+            accessibilityLabel="Página de Cadastro, insira seus dados para criar uma conta"
+        >
             
             <ScrollView scrollEnabled = {true}>
                 <HeaderWithOutMenu
@@ -596,6 +599,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir seu Email"
                                     placeholder="Email"
                                     style={styles.input}
                                     keyboardType = 'email-address'
@@ -630,6 +635,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Digite seu nome completo"
                                     placeholder="Nome Completo"
                                     style={styles.input}
                                     textContentType = 'name'
@@ -660,6 +667,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInputMask
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir seu CPF"
                                     placeholder="CPF"
                                     type = {'cpf'}
                                     value ={cpf}
@@ -693,6 +702,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInputMask
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir o número do seu celular com DDD"
                                     placeholder="Numero de Telefone"
                                     type = {'cel-phone'}
                                     textContentType = 'telephoneNumber'
@@ -732,6 +743,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInputMask
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir sua data de nascimento"
                                     placeholder="Data de nascimento: DD/MM/AAAA"
                                     type = {'datetime'}
                                     options ={{
@@ -768,6 +781,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInputMask
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir o CEP da sua casa"
                                     type={'custom'}
                                     placeholder="CEP da sua casa"
                                     textContentType = 'streetAddressLine1'
@@ -867,6 +882,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir o seu bairro"
                                     placeholder="Bairro"
                                     style={styles.input}
                                     textContentType = 'location'
@@ -897,6 +914,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir o número da sua casa"
                                     placeholder="Número da casa"
                                     style={styles.input}
                                     textContentType = 'location'
@@ -924,6 +943,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInputMask
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir o CEP do seu local de trabalho"
                                     type={'custom'}
                                     placeholder="CEP do seu local de trabalho"
                                     textContentType = 'streetAddressLine1'
@@ -1012,7 +1033,11 @@ export function SignUp(){
                                     ]}    
                                 />
                             </View>
-                            <View style={[
+                            <View 
+                                accessible={true}
+                                accessibilityRole="checkbox"
+                                accessibilityLabel="Caixa de seleção. Marque se possui plano de saúde"
+                                style={[
                                         styles.inputField,
                                         (isHealthPlanSelected) && 
                                         {borderColor: colors.blue}
@@ -1026,7 +1051,11 @@ export function SignUp(){
                                 />
                             </View>
 
-                            <View style={[
+                            <View
+                                accessible={true}
+                                accessibilityRole="checkbox"
+                                accessibilityLabel="Caixa de seleção. Marque para permitir que possamos te enviar menssagens" 
+                                style={[
                                         styles.inputField,
                                         (isAllowMessageSelected) && 
                                         {borderColor: colors.blue}
@@ -1050,6 +1079,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Campo para inserir a senha"
                                     placeholder="Senha"
                                     style={styles.input}
                                     value = {password}
@@ -1082,6 +1113,8 @@ export function SignUp(){
                                     ]}
                             >
                                 <TextInput
+                                    accessible={true}
+                                    accessibilityLabel="Campo para digitar a senha novamente"
                                     placeholder="Confirme a senha"
                                     style={styles.input}
                                     value = {confirmPassword}
@@ -1105,6 +1138,9 @@ export function SignUp(){
                             </View> 
                             <View style={styles.button}>
                                 <BlueButton
+                                    accessible={true}
+                                    accessibilityRole="button"
+                                    accessibilityLabel="Clique para efetuar o cadastro"
                                     title="Cadastrar"
                                     onPress={Check}
                                 />

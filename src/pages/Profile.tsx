@@ -41,7 +41,10 @@ export function Profile(){
     }
 
     return(
-        <SafeAreaView>
+        <SafeAreaView  
+            accessible={true}
+            accessibilityLabel="Página de perfil"
+        >
             <HeaderSimple
                 titleScreen= {`Bem vindo(a) ${user?.name.split(' ')[0]}`}
             />
@@ -53,7 +56,8 @@ export function Profile(){
                     style={styles.bodyUp}
                 >
                     
-                    <Image 
+                    <Image
+                        accessible={true} 
                         source={patientImg}
                         style = {styles.image}
                         accessibilityLabel = "Foto do usuário" 
@@ -67,6 +71,9 @@ export function Profile(){
                         Você está há {days} dias sem atualizar o seus sintomas!
                     </Text>
                     <GreenButton
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel="Clique para ir para a página de atualizar sintomas"
                         title="Atualizar Sintomas"
                         onPress={Data}
                     />
@@ -78,6 +85,9 @@ export function Profile(){
                         title={user?.status? user.status : ''}
                     />
                     <FAQ
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel="Clique para ir para a página de perguntas frequentes"
                         title = "Perguntas Frequentes"
                         onPress={signOut}
                     />
