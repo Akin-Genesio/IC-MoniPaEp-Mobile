@@ -306,6 +306,7 @@ export function Login(){
                         >
                             <TextInput
                                 accessible={true}
+                                accessibilityRole="text"
                                 accessibilityLabel="Digite sua senha"
                                 placeholder="Digite sua senha"
                                 style={styles.input}

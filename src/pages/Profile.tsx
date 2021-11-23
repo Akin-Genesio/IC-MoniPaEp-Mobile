@@ -58,6 +58,7 @@ export function Profile(){
                     
                     <Image
                         accessible={true} 
+                        accessibilityRole="image"
                         source={patientImg}
                         style = {styles.image}
                         accessibilityLabel = "Foto do usuário" 

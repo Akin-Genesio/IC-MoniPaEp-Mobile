@@ -600,6 +600,7 @@ export function SignUp(){
                             >
                                 <TextInput
                                     accessible={true}
+                                    accessibilityRole="text"
                                     accessibilityLabel="Campo para inserir seu Email"
                                     placeholder="Email"
                                     style={styles.input}
@@ -636,8 +637,9 @@ export function SignUp(){
                             >
                                 <TextInput
                                     accessible={true}
+                                    accessibilityRole="text"
                                     accessibilityLabel="Digite seu nome completo"
-                                    placeholder="Nome Completo"
+                                    placeholder="Digite seu nome Nome Completo"
                                     style={styles.input}
                                     textContentType = 'name'
                                     onBlur={handleInputNameBlur}
@@ -669,7 +671,7 @@ export function SignUp(){
                                 <TextInputMask
                                     accessible={true}
                                     accessibilityLabel="Campo para inserir seu CPF"
-                                    placeholder="CPF"
+                                    placeholder="Digite seu CPF"
                                     type = {'cpf'}
                                     value ={cpf}
                                     style={styles.input}
@@ -703,6 +705,7 @@ export function SignUp(){
                             >
                                 <TextInputMask
                                     accessible={true}
+
                                     accessibilityLabel="Campo para inserir o número do seu celular com DDD"
                                     placeholder="Numero de Telefone"
                                     type = {'cel-phone'}
@@ -883,6 +886,7 @@ export function SignUp(){
                             >
                                 <TextInput
                                     accessible={true}
+                                    accessibilityRole="text"
                                     accessibilityLabel="Campo para inserir o seu bairro"
                                     placeholder="Bairro"
                                     style={styles.input}
@@ -1080,6 +1084,7 @@ export function SignUp(){
                             >
                                 <TextInput
                                     accessible={true}
+                                    accessibilityRole="text"
                                     accessibilityLabel="Campo para inserir a senha"
                                     placeholder="Senha"
                                     style={styles.input}
@@ -1114,6 +1119,7 @@ export function SignUp(){
                             >
                                 <TextInput
                                     accessible={true}
+                                    accessibilityRole="text"
                                     accessibilityLabel="Campo para digitar a senha novamente"
                                     placeholder="Confirme a senha"
                                     style={styles.input}
