@@ -8,6 +8,8 @@ import {
 
     View
 } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+
 import patientImg from '../assets/patientImg.png';
 import { FAQ, GreenButton, HeaderSimple, PatientStatus, SafeAreaView } from '../Components';
 import { useAuth } from '../contexts/Auth';
@@ -16,7 +18,7 @@ import fonts from '../styles/fonts';
 
 
 export function Profile(){
-    const[isLoading, setIsLoading] = useState(false)
+    const navigation = useNavigation()
     const {user, refreshToken, token, signed, signOut} = useAuth()
     
     const date = user?.lastUpdate
@@ -34,6 +36,8 @@ export function Profile(){
         console.log(token)
         console.log(refreshToken)
         console.log("Signed: "+signed)
+
+        navigation.navigate('Symptoms')
     }
 
     return(
@@ -60,7 +64,7 @@ export function Profile(){
                 <View style={styles.bottom}>
 
                     <Text style={styles.text}>
-                        Você está a {days} dias sem atualizar o seus sintomas!
+                        Você está há {days} dias sem atualizar o seus sintomas!
                     </Text>
                     <GreenButton
                         title="Atualizar Sintomas"

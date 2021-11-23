@@ -1,7 +1,6 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack'
-import colors from '../styles/colors';
-import { Login, Profile, SignUp } from '../pages';
+import { Profile, Symtopms } from '../pages';
 
 const AppStack = createStackNavigator()
 
@@ -10,6 +9,7 @@ const AppRoutes: React.FC = () => (
         headerMode = "none"
     >
         <AppStack.Screen name = "Profile" component ={Profile}/>
+        <AppStack.Screen name = "Symptoms" component ={Symtopms}/>
     </AppStack.Navigator>
 )
 
