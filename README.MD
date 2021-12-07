@@ -27,6 +27,7 @@
   <li>No diretório raiz, executar **expo start** para iniciar a aplicação </li>
   <li>Utilize o aplicativo expo no seu celular para scanear o QR-Code</li>
   <li> ou **yarn android | ios** para rodar a aplicação usando emulador </li>
+  <li>versão acessivel está atualmente na branch Acessibility</li>
 </ul>
 
 ## 💬 Funcionalidades até o momento
