@@ -24,7 +24,9 @@
   <li>Instalar o expo na sua máquina e no seu celular</li>
   <li>Rodar yarn install no diretório raiz</li>
   <li>Instale e rode o banco de dados disponível em https://github.com/vinicius-claus/IC-MoniPaEp-Backend</li>
+  <li>Mude o endereço de ip escrito na variável "base URL" no documento "api.tsx" que está diretório "services" para: "seu endereço de ip:3333"</li>
   <li>No diretório raiz, executar **expo start** para iniciar a aplicação </li>
+  <li>Uma aba de navegação que representa a aplicação irá abrir no seu navegador padrão</li>
   <li>Utilize o aplicativo expo no seu celular para scanear o QR-Code</li>
   <li> ou **yarn android | ios** para rodar a aplicação usando emulador </li>
   <li>versão acessivel está atualmente na branch Acessibility</li>
