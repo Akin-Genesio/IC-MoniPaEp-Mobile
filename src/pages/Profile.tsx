@@ -25,7 +25,6 @@ export function Profile(){
     const difference= Math.abs((Date.now())- Date.parse(date));
     const days = Math.round(difference/(1000 * 3600 * 24))
 
-
     async function Data(){
         //const patientId = await getUser()
         //const token = await getAccessToken()
@@ -50,36 +49,46 @@ export function Profile(){
             />
             <View
                 style={styles.container}
+                accessible={true} 
             >
-                <MaterialIcons style={styles.icons} name="menu" size={24} color="black" />
+                <MaterialIcons style={styles.icons} accessible={true} accessibilityLabel="Menu" name="menu" size={24} color="black" />
                 <View
                     style={styles.bodyUp}
+                    accessible={true} 
                 >
                     
                     <Image
                         accessible={true} 
-                        accessibilityRole="image"
+                        accessibilityLabel = "Imagem. Foto do usuário" 
                         source={patientImg}
                         style = {styles.image}
-                        accessibilityLabel = "Foto do usuário" 
                     />
                 
                 </View>
 
-                <View style={styles.bottom}>
+                <View
+                    accessible={true} 
+                    style={styles.bottom} 
+                >
 
-                    <Text style={styles.text}>
+                    <Text
+                        accessible={true}
+                        allowFontScaling= {true}
+                        style={styles.text}
+                    >
                         Você está há {days} dias sem atualizar o seus sintomas!
                     </Text>
                     <GreenButton
-                        accessible={true}
-                        accessibilityRole="button"
-                        accessibilityLabel="Clique para ir para a página de atualizar sintomas"
+                        
+                        accessibilityLabel="Botão. Clique para ir para a página de atualizar sintomas"
                         title="Atualizar Sintomas"
                         onPress={Data}
                     />
                     
-                    <Text style={styles.status}>
+                    <Text 
+                        accessible={true} 
+                        style={styles.status}
+                    >
                         Seu Status atual é:
                     </Text>
                     <PatientStatus
@@ -87,8 +96,7 @@ export function Profile(){
                     />
                     <FAQ
                         accessible={true}
-                        accessibilityRole="button"
-                        accessibilityLabel="Clique para ir para a página de perguntas frequentes"
+                        accessibilityLabel="Botão. Clique para ir para a página de perguntas frequentes"
                         title = "Perguntas Frequentes"
                         onPress={signOut}
                     />
@@ -129,6 +137,12 @@ const styles = StyleSheet.create({
     },
     status:{
         fontSize: 16,
+        color: colors.black,
+        fontFamily: fonts.warning,
+        padding: 20
+    },
+    test:{
+        fontSize: 40,
         color: colors.black,
         fontFamily: fonts.warning,
         padding: 20

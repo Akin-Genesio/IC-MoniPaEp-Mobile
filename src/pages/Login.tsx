@@ -272,7 +272,6 @@ export function Login(){
                         >
                             <TextInputMask
                                 accessible={true}
-                                accessibilityLabel="Digite seu CPF"
                                 placeholder="Digite seu CPF"
                                 type = {'cpf'}
                                 value ={cpf}
@@ -306,8 +305,6 @@ export function Login(){
                         >
                             <TextInput
                                 accessible={true}
-                                accessibilityRole="text"
-                                accessibilityLabel="Digite sua senha"
                                 placeholder="Digite sua senha"
                                 style={styles.input}
                                 value = {password}
@@ -332,16 +329,14 @@ export function Login(){
                         <View style={styles.footer}>
                             <TouchableOpacity
                                 accessible={true}
-                                accessibilityLabel= "Este é um botão para caso tenha esquecido a senha"
-                                accessibilityRole="button"
+                                accessibilityLabel= "Botão. Clique caso tenha esquecido a senha"
                             >
                                 <Text style={styles.textLink}>Esqueceu sua senha?</Text>
                             </TouchableOpacity>
                             <View style={styles.button}>
                                 <BlueButton
                                     accessible={true}
-                                    accessibilityLabel= "Este é um botão efetua o login"
-                                    accessibilityRole="button"
+                                    accessibilityLabel= "Botão. Clique para efetuar o login"
                                     title="Entrar"
                                     onPress={Check}
                                 />
@@ -350,8 +345,7 @@ export function Login(){
                                 <Text style={styles.text}>Não possui uma conta? </Text>
                                 <TouchableOpacity
                                     accessible={true}
-                                    accessibilityLabel= "Este é um botão encaminha para a etapa de criar conta"
-                                    accessibilityRole="button"
+                                    accessibilityLabel= "Botão. Clique para criar conta"
                                     onPress={handleSignUp}
                                 >
                                     <Text style={styles.textLink}>Cadastre-se</Text>
