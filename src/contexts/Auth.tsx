@@ -16,6 +16,7 @@ interface User{
     houseNumber: string
     hasHealthPlan: string
     birthdate: Date
+    gender: string
     status: string
     activeAccount: boolean
     createdAt: Date
@@ -64,6 +65,7 @@ export const AuthProvider: React.FC = ({children}) => {
         await AsyncStorage.setItem('@MHAuth:accessToken', JSON.stringify(refreshToken))
         await AsyncStorage.setItem('@MHAuth:token', token)
 
+        //console.log(response.data)
         return response
     }
 
@@ -80,6 +82,7 @@ export const AuthProvider: React.FC = ({children}) => {
     )}
 export function useAuth(){
     const context = useContext(AuthContext)
+
 
     return context
 }

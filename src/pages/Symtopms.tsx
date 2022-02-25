@@ -1,26 +1,48 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Dimensions,
-
-
     StyleSheet,
     Text,
-
     TextInput,
-
-    View
+    View,
+    FlatList,
+    Alert
 } from 'react-native';
-import { HeaderSimple, SafeAreaView } from '../Components';
+import { GreenButton, HeaderSimple, SafeAreaView, Symptom } from '../Components';
+import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+
+interface SymptomsProps{
+    symptom: string
+}
 
 export function Symtopms(){
     const[isSearchFocused, setIsSearchFocused] = useState(false)
     const [isSearchFilled, setIsSearchFilled] = useState(false)
     const [search, setSearch] = useState<string>('')
+    const [symptoms, setSymptoms] = useState<SymptomsProps[]>([])
     const searchRef = useRef(null)
+    const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([])
+    const navigation = useNavigation()
 
+    
+    useEffect(() => {
+        async function fetchSymptoms(){
+            console.log("search: "+search)
+            const response = await api.get("/symptom", {params: {symptom: search}});
+            setSymptoms(response.data.symptoms)
+
+        }
+        fetchSymptoms();
+    },[])
+
+
+    function handleProfile(){
+        navigation.navigate('Profile')
+    }
     //Functions handle for Search
     function handleInputSearchBlur(){
         setIsSearchFocused(false)
@@ -34,10 +56,36 @@ export function Symtopms(){
     function handleInputSearchChange(value: string){
         setIsSearchFilled(!!value)
         setSearch(value)
+        
     }
 
     function handleSeach(){
-        console.log(search)
+        //console.log(search)
+    }
+
+    function handleSymptomSelection(title: string){
+        if(selectedSymptoms.includes(title)){
+            setSelectedSymptoms(selectedSymptoms.filter((symptom) => {
+                return symptom != title
+            }))
+        }
+        else{
+            setSelectedSymptoms([...selectedSymptoms,title])
+        }
+        
+    }
+
+    function handleSymptom(){
+        Alert.alert(
+            "Atualização concluida",
+            `Simtomas cadastrados: ${selectedSymptoms}`,
+            [
+                {
+                    text: "Ok",
+                    onPress: () => (handleProfile())
+                }
+            ]
+        )
     }
 
     return(
@@ -79,8 +127,29 @@ export function Symtopms(){
                             ]}
                             onPress={handleSeach} 
                             />
-
                     </View>
+                    <View style={styles.symptomsList}>
+                    <FlatList
+                        data={symptoms}
+                        keyExtractor = {(item: { symptom: any; }) => String(item.symptom)}
+                        renderItem = {({item}) => (
+                            <Symptom
+                            parentHandleSelection = {handleSymptomSelection}
+                            title = {item.symptom}
+                        />
+                        )}
+                    />
+                    </View>
+                    <View style={styles.bottom}>
+                        <GreenButton
+                            
+                            accessibilityLabel="Botão. Clique para ir para a página de atualizar sintomas"
+                            title="Atualizar Sintomas"
+                            onPress={handleSymptom}
+                        />
+                    </View>
+                    
+
                 </View>
         </SafeAreaView>
     )
@@ -130,4 +199,17 @@ const styles = StyleSheet.create({
     Icon:{
         padding: 10,
     },
+    symptomsList: {
+        width: Dimensions.get('window').width * 0.8,
+        paddingTop: 20,
+        justifyContent: 'center'
+    },
+    bottom:{
+        //marginTop: 40,
+        width: Dimensions.get('window').width * 0.9,
+        paddingBottom: 20,
+        paddingTop: 30,
+        
+        
+    }
 })
