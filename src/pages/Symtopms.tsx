@@ -11,6 +11,7 @@ import {
     Alert
 } from 'react-native';
 import { GreenButton, HeaderSimple, SafeAreaView, Symptom } from '../Components';
+import { useAuth } from '../contexts';
 import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -20,6 +21,7 @@ interface SymptomsProps{
 }
 
 export function Symtopms(){
+    const {user, refreshToken, token} = useAuth()
     const[isSearchFocused, setIsSearchFocused] = useState(false)
     const [isSearchFilled, setIsSearchFilled] = useState(false)
     const [search, setSearch] = useState<string>('')
@@ -31,9 +33,9 @@ export function Symtopms(){
     
     useEffect(() => {
         async function fetchSymptoms(){
-            console.log("search: "+search)
+            //console.log("search: "+search)
             const response = await api.get("/symptom", {params: {symptom: search}});
-            setSymptoms(response.data.symptoms)
+            //setSymptoms(response.data.symptoms)
 
         }
         fetchSymptoms();
@@ -75,17 +77,38 @@ export function Symtopms(){
         
     }
 
-    function handleSymptom(){
-        Alert.alert(
-            "Atualização concluida",
-            `Simtomas cadastrados: ${selectedSymptoms}`,
-            [
-                {
-                    text: "Ok",
-                    onPress: () => (handleProfile())
-                }
-            ]
-        )
+    async function handleSymptom(){
+        try{
+            await api.post("/symptomoccurrenceSeveral",{
+                patient_id: user?.id,
+                symptoms: selectedSymptoms
+            })
+            Alert.alert(
+                "Atualização concluida",
+                `Simtomas cadastrados: ${selectedSymptoms}`,
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (handleProfile())
+                    }
+                ]
+            )
+            console.log("Sintomas submetidos")
+        }catch(error){
+            Alert.alert(
+                "Erro na atualização de sintomas",
+                `${error.response.data.message}`,
+                [
+                    {
+                        text: "Ok",
+                        onPress: () => (handleProfile())
+                    }
+                ]
+            )
+            console.log(error.response.data.message);
+            
+        }
+        
     }
 
     return(

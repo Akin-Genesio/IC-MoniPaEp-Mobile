@@ -77,7 +77,7 @@ export function Profile(){
                         allowFontScaling= {true}
                         style={styles.text}
                     >
-                        Você está há {days} dias sem atualizar o seus sintomas!
+                        Você está há {days} dias sem atualizar os seus sintomas!
                     </Text>
                     <GreenButton
                         
