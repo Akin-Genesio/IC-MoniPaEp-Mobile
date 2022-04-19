@@ -59,7 +59,10 @@ export const AuthProvider: React.FC = ({children}) => {
         setRefreshToken(response.data.refreshToken)
         setToken(response.data.token)
 
-        api.defaults.headers['Authorization'] = `Bearer ${token}`;
+        api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`;
+
+        //console.log("Tokens: "+ token)
+        //console.log("Token pelo response: "+response.data.token)
 
         await AsyncStorage.setItem('@MHAuth:user', JSON.stringify(user))
         await AsyncStorage.setItem('@MHAuth:accessToken', JSON.stringify(refreshToken))
