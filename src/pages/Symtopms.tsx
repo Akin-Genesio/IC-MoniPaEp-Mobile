@@ -35,7 +35,7 @@ export function Symtopms(){
         async function fetchSymptoms(){
             //console.log("search: "+search)
             const response = await api.get("/symptom", {params: {symptom: search}});
-            //setSymptoms(response.data.symptoms)
+            setSymptoms(response.data.symptoms)
 
         }
         fetchSymptoms();
