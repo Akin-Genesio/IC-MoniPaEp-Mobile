@@ -13,6 +13,7 @@ import {
 import { TextInputMask } from 'react-native-masked-text';
 import { HeaderWithOutMenu, SafeAreaView } from '../Components';
 import { BlueButton } from '../Components/BlueButton';
+import {Picker} from '@react-native-picker/picker';
 import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -65,6 +66,8 @@ export function SignUp(){
     //Seting useSate for Allow Message
     const [isAllowMessageSelected, setAllowMessageSelection] = useState(false);
 
+    //Seting useState to gender
+    const [gender, setGender] = useState<string>();
     //Seting useState and useRef to Password
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
@@ -501,6 +504,18 @@ export function SignUp(){
             )
             return
         }
+        if(!gender){
+            Alert.alert(
+                "Erro ao efetuar o cadastro",
+                "Por favor informe seu sexo biológico.",
+                [
+                    {
+                        text: "Ok",
+                    }
+                ]
+            )
+            return
+        }
 
         //Checks if password is valid
         if(!validatePassword(String(password))){
@@ -546,7 +561,8 @@ export function SignUp(){
                 hasHealthPlan: isHealthPlanSelected,
                 birthdate: dateRef.current.getRawValue(),
                 password: password,
-                allowSMS: isAllowMessageSelected
+                allowSMS: isAllowMessageSelected,
+                gender: gender
             })
     
             Alert.alert(
@@ -1035,7 +1051,6 @@ export function SignUp(){
                                     ]}
                             >
                                 <Text style={styles.label}>Possui plano de saúde privado? </Text>
-                                <Text style={styles.answer}>Sim:</Text>
                                 <CheckBox
                                     value={isHealthPlanSelected}
                                     onValueChange={handleInputHealthPlan}
@@ -1052,11 +1067,30 @@ export function SignUp(){
                                     ]}
                             >
                                 <Text style={styles.label}>Nos permite enviar messagens? </Text>
-                                <Text style={styles.answer}>Sim:</Text>
                                 <CheckBox
                                     value={isAllowMessageSelected}
                                     onValueChange={handleInputAllowMessage}
                                 />
+                            </View>
+                            <View
+                                accessible={true}
+                                accessibilityLabel="Caixa de seleção. Marque seu sexo biológico" 
+                                style={[
+                                        styles.inputField,
+                                        (gender!=null)&&
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <Picker
+                                    selectedValue={gender}
+                                    style={{ height: 50, width: 270, borderWidth: 1, borderBottomColor: colors.black }}
+                                    onValueChange={(itemValue, gender) =>
+                                        setGender(itemValue)
+                                    }>
+                                    <Picker.Item label="Sexo biológico..." value= {null}/>
+                                    <Picker.Item label="Masculino" value="masculino"/>
+                                    <Picker.Item label="Feminino" value="feminino"/>
+                                </Picker>
                             </View>
                             
                             <View style={styles.warning}>
