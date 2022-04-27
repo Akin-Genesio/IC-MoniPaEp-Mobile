@@ -40,6 +40,10 @@ export function Profile(){
         navigation.navigate('Symptoms')
     }
 
+    function handleConfig(){
+        navigation.navigate('Config')
+    }
+
     return(
         <SafeAreaView  
             accessible={true}
@@ -52,7 +56,13 @@ export function Profile(){
                 style={styles.container}
                 accessible={true} 
             >
-                <MaterialIcons style={styles.icons} accessible={true} accessibilityLabel="Menu" name="menu" size={24} color="black" />
+                <MaterialIcons 
+                    style={styles.icons} 
+                    accessible={true} accessibilityLabel="Menu" 
+                    name="menu" size={24} 
+                    color="black"
+                    onPress={handleConfig} 
+                />
                 <View
                     style={styles.bodyUp}
                     accessible={true} 

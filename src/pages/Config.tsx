@@ -11,6 +11,7 @@ import {
     View
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import {Picker} from '@react-native-picker/picker';
 import { HeaderWithOutMenu, SafeAreaView } from '../Components';
 import { BlueButton } from '../Components/BlueButton';
 import { useAuth } from '../contexts';
@@ -18,7 +19,7 @@ import api from '../services/api';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-export async function Config(){
+export function Config(){
     //Get the user's infos
     const {user, refreshToken, token, signed, signOut} = useAuth()
 
@@ -26,75 +27,76 @@ export async function Config(){
     const[isEmailFocused, setIsEmailFocused] = useState(false)
     const [isEmailFilled, setIsEmailFilled] = useState(!!user?.email)
     const [email, setEmail] = useState<string | undefined>(user?.email)
-    const emailRef = useRef()
+    const emailRef = useRef<string | undefined>()
 
     //Seting useState to Name
     const[isNameFocused, setIsNameFocused] = useState(false)
     const [isNameFilled, setIsNameFilled] = useState(!!user?.name)
-    const [name, setName] = useState<string | undefined>()
-    const nameRef = useRef()
+    const [name, setName] = useState<string | undefined>(user?.name)
+    const nameRef = useRef<string | undefined>()
 
     //Seting useState and useRef to CPF
     const[isCPFFocused, setIsCPFFocused] = useState(false)
     const [isCPFFilled, setIsCPFFilled] = useState(!!user?.CPF)
     const [cpf, setCPF] = useState<string | undefined>(user?.CPF)
-    const cpfRef = useRef(user?.CPF)
+    const cpfRef = useRef<string | undefined>(user?.CPF)
 
     //Seting useState and useRef to Cellphone number
     const[isPhoneFocused, setIsPhoneFocused] = useState(false)
     const [isPhoneFilled, setIsPhoneFilled] = useState(!!user?.phone)
     const [phone, setPhone] = useState<string | undefined>(user?.phone)
-    const phoneRef = useRef()
+    const phoneRef = useRef<string | undefined>()
 
     //Seting useState and useRef to Date number
     const[isDateFocused, setIsDateFocused] = useState(false)
     const [isDateFilled, setIsDateFilled] = useState(!!user?.birthdate)
     const [date, setDate] = useState<string | undefined>(String(user?.birthdate))
-    const dateRef = useRef()
+    const dateRef = useRef<string | undefined>()
 
     //Seting useState and useRef to HomeAddress
     const[isHomeAddressFocused, setIsHomeAddressFocused] = useState(false)
     const [isHomeAddressFilled, setIsHomeAddressFilled] = useState(!!user?.homeAddress)
     const [homeAddress, setHomeAddress] = useState<string | undefined>(user?.homeAddress)
-    const homeAddressRef = useRef()
+    const homeAddressRef = useRef<string | undefined>()
 
     //Seting useState and useRef to WorkAddress
     const[isWorkAddressFocused, setIsWorkAddressFocused] = useState(false)
     const [isWorkAddressFilled, setIsWorkAddressFilled] = useState(!!user?.workAddress)
     const [workAddress, setWorkAddress] = useState<string | undefined>(user?.workAddress)
-    const workAddressRef = useRef()
+    const workAddressRef = useRef<string | undefined>()
 
     //Seting useSate for Health Plan
     const [isHealthPlanSelected, setHealthPlanSelection] = useState<boolean | undefined>(Boolean(user?.hasHealthPlan));
-    const isHealthPlanSelectedRef = useRef(user?.hasHealthPlan)
+    const isHealthPlanSelectedRef = useRef<string | undefined>(user?.hasHealthPlan)
 
     //Seting useSate for Allow Message
     const [isAllowMessageSelected, setAllowMessageSelection] = useState<boolean | undefined>(Boolean(user?.allowSMS));
-    const isAllowMessageSelectedRef = useRef(user?.allowSMS)
+    const [gender, setGender] = useState<string | undefined>(user?.gender);
+    const isAllowMessageSelectedRef = useRef<string | undefined>(user?.allowSMS)
 
     //Seting useState and useRef to Password
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
     const [password, setPassword] = useState<string>()
-    const passwordRef = useRef(null)
+    const passwordRef = useRef<string | undefined>(null)
 
     //Seting useState and useRef to Confirm Password
     const[isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false)
     const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState<string>()
-    const confirmPasswordRef = useRef(null)
+    const confirmPasswordRef = useRef<string | undefined>(null)
 
     //Seting useState and useRef to Neighborhood
     const[isNeighborhoodFocused, setIsNeighborhoodFocused] = useState(false)
     const [isNeighborhoodFilled, setIsNeighborhoodFilled] = useState(!!user?.neighborhood)
     const [neighborhood, setNeighborhood] = useState<string | undefined>(user?.neighborhood)
-    const neighborhoodRef = useRef()
+    const neighborhoodRef = useRef<string | undefined>()
 
     //Seting useState and useRef to HouseNumber
     const[isHouseNumberFocused, setIsHouseNumberFocused] = useState(false)
-    const [isHouseNumberFilled, setIsHouseNumberFilled] = useState(!!user?.houseNumber)
-    const [houseNumber, setHouseNumber] = useState<number | undefined>(Number(user?.houseNumber))
-    const houseNumberRef = useRef()
+    const [isHouseNumberFilled, setIsHouseNumberFilled] = useState(false)
+    const [houseNumber, setHouseNumber] = useState<number>()
+
 
     //Creating const for navigation
     const navigation = useNavigation()
@@ -212,6 +214,11 @@ export async function Config(){
     //Function handle for Health Plan
     function handleInputAllowMessage(){
         setAllowMessageSelection(!isAllowMessageSelected)
+    }
+
+    //Function handle for gender male
+    function handleGender(value: string){
+        setGender(value)
     }
 
     //Functions handle for Password
@@ -421,6 +428,7 @@ export async function Config(){
         }
 
         //Check CPF
+        
         if(!cpfRef.current.isValid()){
             Alert.alert(
                 "Erro ao efetuar o cadastro",
@@ -435,7 +443,7 @@ export async function Config(){
             return
         }
         //Check Phone number
-        if(!phoneRef.current.isValid()){
+        if(!phone.current.isValid()){
             Alert.alert(
                 "Erro ao efetuar o cadastro",
                 "Por favor insira um número de celular valido.",
@@ -450,7 +458,7 @@ export async function Config(){
         }
 
         //Check birthday
-        if(!dateRef.current.isValid()){
+        if(!date.current.isValid()){
             Alert.alert(
                 "Erro ao efetuar o cadastro",
                 "Por favor insira uma data de nascimento valida",
@@ -465,7 +473,7 @@ export async function Config(){
         }
 
         //Check CEP
-        if(!homeAddressRef.current.isValid()){
+        if(!homeAddress.current.isValid()){
             Alert.alert(
                 "Erro ao efetuar o cadastro",
                 "Por favor insira um cep valido como seu endereço.",
@@ -508,6 +516,19 @@ export async function Config(){
             )
             return
         }
+        if(!gender){
+            Alert.alert(
+                "Erro ao efetuar a atualização",
+                "Por favor informe seu sexo biológico.",
+                [
+                    {
+                        text: "Ok",
+                        
+                    }
+                ]
+            )
+            return
+        }
 
         //Checks if password is valid
         if(!validatePassword(String(password))){
@@ -541,6 +562,7 @@ export async function Config(){
 
         //Submit data to database
         try{
+            /*
             const response = await api.post('/patients/signup',{
                 email: email,
                 name: name,
@@ -555,7 +577,7 @@ export async function Config(){
                 password: password,
                 allowSMS: isAllowMessageSelected
             })
-    
+            */
             Alert.alert(
                 "Cadastro Efetuado",
                 "Seu cadastro foi concluido com sucesso",
@@ -584,12 +606,12 @@ export async function Config(){
     return(
         <SafeAreaView 
             accessible={true}
-            accessibilityLabel="Página de Cadastro, insira seus dados para criar uma conta"
+            accessibilityLabel="Página de Configurações, altere os dados que desejar"
         >
             
             <ScrollView scrollEnabled = {true}>
                 <HeaderWithOutMenu
-                    titleScreen='Cadastro'
+                    titleScreen='Configurações'
                 />   
                 <KeyboardAvoidingView  
                     style={styles.container}
@@ -612,7 +634,7 @@ export async function Config(){
                                     keyboardType = 'email-address'
                                     textContentType = 'emailAddress'
                                     value = {email}
-                                    ref = {emailRef}
+                                    
                                     onBlur={handleInputEmailBlur}
                                     onFocus = {handleInputEmailFocus}
                                     onChangeText = {handleInputEmailChange}
@@ -645,6 +667,7 @@ export async function Config(){
                                     placeholder="Digite seu nome Nome Completo"
                                     style={styles.input}
                                     textContentType = 'name'
+                                    value={name}
                                     onBlur={handleInputNameBlur}
                                     onFocus = {handleInputNameFocus}
                                     onChangeText = {handleInputNameChange}
@@ -680,7 +703,7 @@ export async function Config(){
                                     onBlur={handleInputCPFBlur}
                                     onFocus = {handleInputCPFFocus}
                                     onChangeText = {handleInputCPFChange}
-                                    ref={cpfRef}
+                                    
                                     
                                 />
                                 <MaterialIcons 
@@ -720,7 +743,7 @@ export async function Config(){
                                     onBlur={handleInputPhoneBlur}
                                     onFocus = {handleInputPhoneFocus}
                                     onChangeText = {handleInputPhoneChange}
-                                    ref={phoneRef}
+                                    
                                     
                                 />
                                 <MaterialIcons 
@@ -757,7 +780,7 @@ export async function Config(){
                                     onBlur={handleInputDateBlur}
                                     onFocus = {handleInputDateFocus}
                                     onChangeText = {handleInputDateChange}
-                                    ref={dateRef}
+                                    
                                     
                                 />
                                 <MaterialIcons 
@@ -858,7 +881,7 @@ export async function Config(){
                                     onBlur={handleInputHomeAddressBlur}
                                     onFocus = {handleInputHomeAddressFocus}
                                     style={styles.input}
-                                    ref={homeAddressRef}
+                                    
                                 />
                                 <MaterialIcons 
                                     name="home" 
@@ -887,6 +910,7 @@ export async function Config(){
                                     placeholder="Digite seu Bairro"
                                     style={styles.input}
                                     textContentType = 'location'
+                                    value={neighborhood}
                                     onBlur={handleInputNeighborhoodBlur}
                                     onFocus = {handleInputNeighborhoodFocus}
                                     onChangeText = {handleInputNeighborhoodChange}
@@ -1017,7 +1041,7 @@ export async function Config(){
                                     onBlur={handleInputWorkAddressBlur}
                                     onFocus = {handleInputWorkAddressFocus}
                                     style={styles.input}
-                                    ref={workAddressRef}
+                                    
                             />
                                 <MaterialIcons 
                                     name="work" 
@@ -1036,13 +1060,12 @@ export async function Config(){
                                 accessibilityRole="checkbox"
                                 accessibilityLabel="Caixa de seleção. Marque se possui plano de saúde"
                                 style={[
-                                        styles.inputField,
+                                        styles.checkbox,
                                         (isHealthPlanSelected) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
                                 <Text style={styles.label}>Possui plano de saúde privado? </Text>
-                                <Text style={styles.answer}>Sim:</Text>
                                 <CheckBox
                                     value={isHealthPlanSelected}
                                     onValueChange={handleInputHealthPlan}
@@ -1053,17 +1076,38 @@ export async function Config(){
                                 accessible={true}
                                 accessibilityLabel="Caixa de seleção. Marque para permitir que possamos te enviar menssagens" 
                                 style={[
-                                        styles.inputField,
+                                        styles.checkbox,
                                         (isAllowMessageSelected) && 
                                         {borderColor: colors.blue}
                                     ]}
                             >
                                 <Text style={styles.label}>Nos permite enviar messagens? </Text>
-                                <Text style={styles.answer}>Sim:</Text>
                                 <CheckBox
                                     value={isAllowMessageSelected}
                                     onValueChange={handleInputAllowMessage}
                                 />
+                            </View>
+                            <View style={styles.warning}>
+                                <Text style={styles.warningText}>* Obrigatório </Text>
+                            </View>
+                            <View
+                                accessible={true}
+                                accessibilityLabel="Caixa de seleção. Marque seu sexo biológico" 
+                                style={[
+                                        styles.inputField,
+                                        {borderColor: colors.blue}
+                                    ]}
+                            >
+                                <Picker
+                                    selectedValue={gender}
+                                    style={{ height: 50, width: 270, borderWidth: 1, borderBottomColor: colors.black }}
+                                    onValueChange={(itemValue, gender) =>
+                                        setGender(itemValue)
+                                    }>
+                                    <Picker.Item label="Sexo biológico..." value=""/>
+                                    <Picker.Item label="masculino" value="masculino"/>
+                                    <Picker.Item label="Feminino" value="feminino"/>
+                                </Picker>
                             </View>
                             
                             <View style={styles.warning}>
@@ -1135,7 +1179,7 @@ export async function Config(){
                                 <BlueButton
                                     accessible={true}
                                     accessibilityLabel="Clique para efetuar o cadastro"
-                                    title="Cadastrar"
+                                    title="Atualizar"
                                     onPress={Check}
                                 />
                             </View>
@@ -1169,7 +1213,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomWidth: 1,
+        borderWidth: 1,
         borderColor: colors.gray,
         padding: 10
         
@@ -1194,6 +1238,15 @@ const styles = StyleSheet.create({
         //marginTop: 40,
         width: Dimensions.get('window').width * 0.9,
         padding: 40,
+    },
+    checkbox:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderBottomWidth: 1,
+        borderColor: colors.gray,
+        padding: 10
     }
    
   });

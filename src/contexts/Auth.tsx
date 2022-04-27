@@ -13,7 +13,7 @@ interface User{
     workAddress: string
     homeAddress: string
     neighborhood: string
-    houseNumber: string
+    houseNumber: number
     hasHealthPlan: string
     birthdate: Date
     gender: string

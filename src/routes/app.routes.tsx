@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { Profile, Symtopms } from '../pages';
+import { Config, Profile, Symtopms } from '../pages';
 
 const AppStack = createStackNavigator()
 
@@ -10,6 +10,7 @@ const AppRoutes: React.FC = () => (
     >
         <AppStack.Screen name = "Profile" component ={Profile}/>
         <AppStack.Screen name = "Symptoms" component ={Symtopms}/>
+        <AppStack.Screen name = "Config" component={Config}/>
     </AppStack.Navigator>
 )
 
