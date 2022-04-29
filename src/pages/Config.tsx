@@ -39,31 +39,31 @@ export function Config(){
     const[isCPFFocused, setIsCPFFocused] = useState(false)
     const [isCPFFilled, setIsCPFFilled] = useState(!!user?.CPF)
     const [cpf, setCPF] = useState<string | undefined>(user?.CPF)
-    const cpfRef = useRef<string | undefined>(user?.CPF)
+    const cpfRef = useRef(null)
 
     //Seting useState and useRef to Cellphone number
     const[isPhoneFocused, setIsPhoneFocused] = useState(false)
     const [isPhoneFilled, setIsPhoneFilled] = useState(!!user?.phone)
     const [phone, setPhone] = useState<string | undefined>(user?.phone)
-    const phoneRef = useRef<string | undefined>()
+    const phoneRef = useRef(null)
 
     //Seting useState and useRef to Date number
     const[isDateFocused, setIsDateFocused] = useState(false)
     const [isDateFilled, setIsDateFilled] = useState(!!user?.birthdate)
     const [date, setDate] = useState<string | undefined>(String(user?.birthdate))
-    const dateRef = useRef<string | undefined>()
+    const dateRef = useRef(null)
 
     //Seting useState and useRef to HomeAddress
     const[isHomeAddressFocused, setIsHomeAddressFocused] = useState(false)
     const [isHomeAddressFilled, setIsHomeAddressFilled] = useState(!!user?.homeAddress)
     const [homeAddress, setHomeAddress] = useState<string | undefined>(user?.homeAddress)
-    const homeAddressRef = useRef<string | undefined>()
+    const homeAddressRef = useRef(null)
 
     //Seting useState and useRef to WorkAddress
     const[isWorkAddressFocused, setIsWorkAddressFocused] = useState(false)
     const [isWorkAddressFilled, setIsWorkAddressFilled] = useState(!!user?.workAddress)
     const [workAddress, setWorkAddress] = useState<string | undefined>(user?.workAddress)
-    const workAddressRef = useRef<string | undefined>()
+    const workAddressRef = useRef(null)
 
     //Seting useSate for Health Plan
     const [isHealthPlanSelected, setHealthPlanSelection] = useState<boolean | undefined>(Boolean(user?.hasHealthPlan));
@@ -78,13 +78,13 @@ export function Config(){
     const[isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [isPasswordFilled, setIsPasswordFilled] = useState(false)
     const [password, setPassword] = useState<string>()
-    const passwordRef = useRef<string | undefined>(null)
+    const passwordRef = useRef(null)
 
     //Seting useState and useRef to Confirm Password
     const[isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false)
     const [isConfirmPasswordFilled, setIsConfirmPasswordFilled] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState<string>()
-    const confirmPasswordRef = useRef<string | undefined>(null)
+    const confirmPasswordRef = useRef(null)
 
     //Seting useState and useRef to Neighborhood
     const[isNeighborhoodFocused, setIsNeighborhoodFocused] = useState(false)
@@ -391,8 +391,8 @@ export function Config(){
     }
 
 
-    function handleLogin(){
-        navigation.navigate('Login')
+    function handleProfile(){
+        navigation.navigate('Profile')
     }
 
     //Checks if all the inputs are valid
@@ -400,7 +400,7 @@ export function Config(){
         //Check Email
         if(!validateEmail(String(email))){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira um email valido.",
                 [
                     {
@@ -415,7 +415,7 @@ export function Config(){
         //Check Name
         if(!name){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira seu nome.",
                 [
                     {
@@ -429,9 +429,9 @@ export function Config(){
 
         //Check CPF
         
-        if(!cpfRef.current.isValid()){
+        if(!cpfRef?.current.isValid()){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira um cpf valido.",
                 [
                     {
@@ -443,9 +443,9 @@ export function Config(){
             return
         }
         //Check Phone number
-        if(!phone.current.isValid()){
+        if(!phoneRef.current.isValid()){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira um número de celular valido.",
                 [
                     {
@@ -458,9 +458,9 @@ export function Config(){
         }
 
         //Check birthday
-        if(!date.current.isValid()){
+        if(!dateRef.current.isValid()){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira uma data de nascimento valida",
                 [
                     {
@@ -473,9 +473,9 @@ export function Config(){
         }
 
         //Check CEP
-        if(!homeAddress.current.isValid()){
+        if(!homeAddressRef.current.isValid()){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira um cep valido como seu endereço.",
                 [
                     {
@@ -490,7 +490,7 @@ export function Config(){
         //Check Neighborhood
         if(!neighborhood){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira o nome do seu bairro.",
                 [
                     {
@@ -505,7 +505,7 @@ export function Config(){
         //Check HouseNumber
         if(!houseNumber){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "Por favor insira o número da sua casa.",
                 [
                     {
@@ -531,9 +531,9 @@ export function Config(){
         }
 
         //Checks if password is valid
-        if(!validatePassword(String(password))){
+        if(password &&!validatePassword(String(password))){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "A senha deve ter no minimo 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caracter especial",
                 [
                     {
@@ -548,7 +548,7 @@ export function Config(){
         //Checks if the user has entered the same passwords in the password and password confirmation fields 
         if(!(password === confirmPassword)){
             Alert.alert(
-                "Erro ao efetuar o cadastro",
+                "Erro ao efetuar a atualização",
                 "As senhas inseridas não conferem. Digite novamente.",
                 [
                     {
@@ -562,8 +562,8 @@ export function Config(){
 
         //Submit data to database
         try{
-            /*
-            const response = await api.post('/patients/signup',{
+            
+            const response = await api.put(`/patients/${user?.id}`,{
                 email: email,
                 name: name,
                 CPF: cpfRef.current.getRawValue(),
@@ -577,14 +577,14 @@ export function Config(){
                 password: password,
                 allowSMS: isAllowMessageSelected
             })
-            */
+            
             Alert.alert(
-                "Cadastro Efetuado",
-                "Seu cadastro foi concluido com sucesso",
+                "Atualização efetuada",
+                "Seus dados foram atualizados com sucesso",
                 [
                     {
                         text: "Ok",
-                        onPress: () => (handleLogin())
+                        onPress: () => (handleProfile())
                     }
                 ]
             )
@@ -703,8 +703,7 @@ export function Config(){
                                     onBlur={handleInputCPFBlur}
                                     onFocus = {handleInputCPFFocus}
                                     onChangeText = {handleInputCPFChange}
-                                    
-                                    
+                                    ref = {cpfRef}
                                 />
                                 <MaterialIcons 
                                     name="person-outline" 
@@ -743,6 +742,7 @@ export function Config(){
                                     onBlur={handleInputPhoneBlur}
                                     onFocus = {handleInputPhoneFocus}
                                     onChangeText = {handleInputPhoneChange}
+                                    ref={phoneRef}
                                     
                                     
                                 />
@@ -780,6 +780,7 @@ export function Config(){
                                     onBlur={handleInputDateBlur}
                                     onFocus = {handleInputDateFocus}
                                     onChangeText = {handleInputDateChange}
+                                    ref={dateRef}
                                     
                                     
                                 />
@@ -881,6 +882,7 @@ export function Config(){
                                     onBlur={handleInputHomeAddressBlur}
                                     onFocus = {handleInputHomeAddressFocus}
                                     style={styles.input}
+                                    ref={homeAddressRef}
                                     
                                 />
                                 <MaterialIcons 
@@ -1095,6 +1097,7 @@ export function Config(){
                                 accessibilityLabel="Caixa de seleção. Marque seu sexo biológico" 
                                 style={[
                                         styles.inputField,
+                                        (gender!=null)&&
                                         {borderColor: colors.blue}
                                     ]}
                             >
@@ -1104,15 +1107,12 @@ export function Config(){
                                     onValueChange={(itemValue, gender) =>
                                         setGender(itemValue)
                                     }>
-                                    <Picker.Item label="Sexo biológico..." value=""/>
+                                    <Picker.Item label="Sexo biológico..." value={null}/>
                                     <Picker.Item label="masculino" value="masculino"/>
                                     <Picker.Item label="Feminino" value="feminino"/>
                                 </Picker>
                             </View>
                             
-                            <View style={styles.warning}>
-                                <Text style={styles.warningText}>* Obrigatório </Text>
-                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isPasswordFocused || isPasswordFilled) && 
@@ -1121,7 +1121,7 @@ export function Config(){
                             >
                                 <TextInput
                                     accessible={true}
-                                    placeholder="Insira a sua Senha"
+                                    placeholder="Insira uma nova Senha"
                                     style={styles.input}
                                     value = {password}
                                     textContentType = 'newPassword'
@@ -1142,10 +1142,6 @@ export function Config(){
                                     ]}    
                                 />
                             </View> 
-                            
-                            <View style={styles.warning}>
-                                <Text style={styles.warningText}>* Obrigatório </Text>
-                            </View>
                             <View style={[
                                         styles.inputField,
                                         (isConfirmPasswordFocused || isConfirmPasswordFilled) && 
@@ -1154,7 +1150,7 @@ export function Config(){
                             >
                                 <TextInput
                                     accessible={true}
-                                    placeholder="Digite novamente a sua senha"
+                                    placeholder="Digite novamente a senha"
                                     style={styles.input}
                                     value = {confirmPassword}
                                     textContentType = 'password'
